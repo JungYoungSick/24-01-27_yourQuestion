@@ -1,9 +1,11 @@
 import React from "react";
-
 import dynamic from "next/dynamic";
 
-// 동적으로 LoginPopup 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
+// 동적으로 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
 const LoginPopup = dynamic(() => import("@/app/ui/button/loginpopup"), {
+  ssr: false,
+});
+const TalkList = dynamic(() => import("@/app/ui/button/talklist"), {
   ssr: false,
 });
 
@@ -17,8 +19,8 @@ const MainPage: React.FC = () => {
         </div>
         <div className="flex space-x-2">
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
-          <button className="p-2 bg-green-200 rounded-full">+</button>
-          <button className="p-2 bg-yellow-200 rounded-full">🗓️</button>
+          <button className="p-2 bg-green-200 rounded-full">+🗓️</button>
+          <TalkList />
           <button className="p-2 bg-red-200 rounded-full">💬</button>
         </div>
       </header>

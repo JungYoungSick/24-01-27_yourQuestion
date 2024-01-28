@@ -25,7 +25,7 @@ const LoginPopup: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <div className="flex justify-end">
-              <button onClick={handleCloseClick}>✖️</button>
+              <button onClick={handleCloseClick}>📌</button>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-blue-300 w-12 h-12 rounded-full mb-4"></div>
