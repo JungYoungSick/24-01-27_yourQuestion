@@ -1,4 +1,4 @@
-// components/LoginPopup.tsx
+"use client";
 import React, { useState } from "react";
 
 const LoginPopup: React.FC = () => {

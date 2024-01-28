@@ -1,14 +1,19 @@
-// pages/index.tsx
 import React from "react";
 
-const HomePage: React.FC = () => {
+import dynamic from "next/dynamic";
+
+// 동적으로 LoginPopup 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
+const LoginPopup = dynamic(() => import("@/app/ui/button/loginpopup"), {
+  ssr: false,
+});
+
+const MainPage: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-pink-100">
-      {/* Header section */}
       <header className="flex justify-between p-4">
         <div className="flex space-x-4">
           {/* 10시 방향 UI (로그인 결과 UI) */}
-          <button className="p-2 bg-blue-200 rounded-full"></button>
+          <LoginPopup />
         </div>
         <div className="flex space-x-2">
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
@@ -44,4 +49,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default MainPage;
