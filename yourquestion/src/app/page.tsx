@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
       <header className="flex justify-between p-4">
         <div className="flex space-x-4">
           {/* 10시 방향 UI (로그인 결과 UI) */}
-          <button className="p-2 bg-blue-200 rounded-full">로그인</button>
+          <button className="p-2 bg-blue-200 rounded-full"></button>
         </div>
         <div className="flex space-x-2">
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
