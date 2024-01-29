@@ -1,5 +1,6 @@
+"use client";
 // src/components/Talk.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 type MessageType = "user" | "bot";
 
@@ -10,7 +11,11 @@ interface Message {
 
 export const Talk: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 관리
 
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen); // 팝업 상태 토글
+  };
   // 새로운 사용자 질문을 추가하는 함수
   const addNewUserQuestion = (questionText: string) => {
     const newQuestion: Message = { type: "user", text: questionText };
@@ -39,10 +44,36 @@ export const Talk: React.FC = () => {
     ));
 
   return (
-    <div className="talk-popup">
-      <div className="messages">{renderMessages()}</div>
-      {/* TODO: 여기에 사용자 입력 필드와 전송 버튼을 추가 */}
-    </div>
+    <>
+      <button className="p-2 bg-red-200 rounded-full" onClick={togglePopup}>
+        💬
+      </button>{" "}
+      {/* 팝업 토글 버튼 */}
+      {isPopupOpen && ( // 팝업 상태에 따라 조건부 렌더링
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md">
+            <div className="flex justify-end">
+              {/* 팝업 닫기 버튼 */}
+              <button onClick={togglePopup} className="text-xl">
+                📌
+              </button>
+            </div>
+            <ul>
+              {messages.map((message, index) => (
+                <li
+                  key={index}
+                  className={`message ${
+                    message.type === "user" ? "user-message" : "bot-message"
+                  }`}
+                >
+                  {message.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

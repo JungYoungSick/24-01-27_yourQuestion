@@ -8,6 +8,9 @@ const LoginPopup = dynamic(() => import("@/app/ui/button/loginpopup"), {
 const TalkList = dynamic(() => import("@/app/ui/button/talklist"), {
   ssr: false,
 });
+const Talk = dynamic(() => import("@/app/ui/button/talk"), {
+  ssr: false,
+});
 
 const MainPage: React.FC = () => {
   return (
@@ -21,7 +24,7 @@ const MainPage: React.FC = () => {
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
           <button className="p-2 bg-green-200 rounded-full">+</button>
           <TalkList />
-          <button className="p-2 bg-red-200 rounded-full">💬</button>
+          <Talk />
         </div>
       </header>
 
