@@ -2,13 +2,13 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 // 동적으로 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
-const LoginPopup = dynamic(() => import("@/app/ui/button/loginpopup"), {
+const LoginPopup = dynamic(() => import("@/app/button/loginpopup"), {
   ssr: false,
 });
-const TalkList = dynamic(() => import("@/app/ui/button/talklist"), {
+const TalkList = dynamic(() => import("@/app/button/talklist"), {
   ssr: false,
 });
-const Talk = dynamic(() => import("@/app/ui/button/talk"), {
+const Talk = dynamic(() => import("@/app/button/talk"), {
   ssr: false,
 });
 
