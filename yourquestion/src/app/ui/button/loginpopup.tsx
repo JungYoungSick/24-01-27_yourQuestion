@@ -18,7 +18,7 @@ const LoginPopup: React.FC = () => {
         className="p-2 bg-blue-200 rounded-full"
         onClick={handleLoginClick}
       >
-        로그인
+        👤
       </button>
 
       {isPopupOpen && (

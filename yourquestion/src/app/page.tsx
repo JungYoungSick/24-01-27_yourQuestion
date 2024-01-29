@@ -19,7 +19,7 @@ const MainPage: React.FC = () => {
         </div>
         <div className="flex space-x-2">
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
-          <button className="p-2 bg-green-200 rounded-full">+🗓️</button>
+          <button className="p-2 bg-green-200 rounded-full">+</button>
           <TalkList />
           <button className="p-2 bg-red-200 rounded-full">💬</button>
         </div>
