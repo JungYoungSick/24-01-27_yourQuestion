@@ -30,11 +30,23 @@ const LoginPopup: React.FC = () => {
             >
               <button onClick={handleCloseClick}>📌</button>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="bg-blue-300 w-16 h-16 rounded-full mb-4"></div>
-              <div className="text-lg">닉네임</div>
-              <div className="text-sm">이름: OOO</div>
-              <div className="text-sm">아이디: OOO@gmail.com</div>
+            <div className="flex flex-col items-center mb-4">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-blue-300 w-16 h-16 rounded-full"></div>
+                <span className="text-lg font-semibold">닉네임</span>
+              </div>
+              <div className="flex flex-col justify-start">
+                <div className="text-sm">이름: OOO</div>
+                <div className="text-sm mb-4">아이디: OOO@gmail.com</div>
+              </div>
+              <div className="w-56 flex justify-between">
+                <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                  고객센터
+                </button>
+                <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                  로그아웃
+                </button>
+              </div>
             </div>
           </div>
         </div>
