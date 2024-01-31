@@ -45,7 +45,9 @@ export const TalkList: React.FC = () => {
           <div className="bg-white p-4 w-1/2 mt-14 mr-10  h-4/5 rounded-lg shadow-lg max-w-md">
             <div className="flex justify-end">
               {/* 팝업 닫기 버튼 */}
-              <button onClick={handleListCloseClick}>📌</button>
+              <button onClick={handleListCloseClick} className="text-xl">
+                📌
+              </button>
             </div>
             <ul>
               {items.map((item) => (
