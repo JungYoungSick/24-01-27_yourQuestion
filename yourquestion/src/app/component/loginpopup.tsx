@@ -22,13 +22,16 @@ const LoginPopup: React.FC = () => {
       </button>
 
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <div className="flex justify-end">
+        <div className="fixed inset-0 bg-black bg-opacity-15 flex justify-start items-center">
+          <div className="bg-white w-96 h-3/5 mt-14 mr-10 rounded-lg shadow-xl">
+            <div
+              className="w-11/12 h-16
+            flex justify-end items-center"
+            >
               <button onClick={handleCloseClick}>📌</button>
             </div>
             <div className="flex flex-col items-center">
-              <div className="bg-blue-300 w-12 h-12 rounded-full mb-4"></div>
+              <div className="bg-blue-300 w-16 h-16 rounded-full mb-4"></div>
               <div className="text-lg">닉네임</div>
               <div className="text-sm">이름: OOO</div>
               <div className="text-sm">아이디: OOO@gmail.com</div>
