@@ -50,9 +50,12 @@ export const Talk: React.FC = () => {
       </button>{" "}
       {/* 팝업 토글 버튼 */}
       {isPopupOpen && ( // 팝업 상태에 따라 조건부 렌더링
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md">
-            <div className="flex justify-end">
+        <div className="fixed inset-0 bg-black bg-opacity-15 flex justify-end items-start">
+          <div className="bg-white w-1/2 h-4/5 mt-14 mr-10 rounded-lg shadow-lg max-w-md">
+            <div
+              className="w-11/12 h-16
+            flex justify-end items-center"
+            >
               {/* 팝업 닫기 버튼 */}
               <button onClick={togglePopup} className="text-xl">
                 📌
