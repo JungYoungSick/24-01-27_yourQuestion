@@ -13,30 +13,32 @@ app.prepare().then(() => {
 
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
+  console.log('서버 연결')
+  server.post("/nosql/mongodb", (req, res) => {
+    console.log("서버로 전송된 데이터:", req.body); // 이 부분이 추가됨
 
-  // MariaDB 데이터 저장 API
-  server.post("/api/mariadb", (req, res) => {
     const data = req.body;
-    saveToMariaDB(data, (error, result) => {
-      if (error) {
-        res.status(500).send("MariaDB에 데이터 저장 중 오류 발생");
-      } else {
-        res.status(200).send("MariaDB에 데이터 저장 완료");
-      }
-    });
+    // saveToMongoDB 함수 호출 전에 데이터 출력을 확인
+    // saveToMongoDB(data, (error, result) => {
+    //   if (error) {
+    //     res.status(500).send("MongoDB에 데이터 저장 중 오류 발생");
+    //   } else {
+    //     res.status(200).send("MongoDB에 데이터 저장 완료");
+    //   }
+    // });
   });
 
-  // MongoDB 데이터 저장 API
-  server.post("/api/mongodb", (req, res) => {
-    const data = req.body;
-    saveToMongoDB(data, (error, result) => {
-      if (error) {
-        res.status(500).send("MongoDB에 데이터 저장 중 오류 발생");
-      } else {
-        res.status(200).send("MongoDB에 데이터 저장 완료");
-      }
-    });
-  });
+  // // MongoDB 데이터 저장 API
+  // server.post("/nosql/mongodb", (req, res) => {
+  //   const data = req.body;
+  //   saveToMongoDB(data, (error, result) => {
+  //     if (error) {
+  //       res.status(500).send("MongoDB에 데이터 저장 중 오류 발생");
+  //     } else {
+  //       res.status(200).send("MongoDB에 데이터 저장 완료");
+  //     }
+  //   });
+  // });
 
   // Next.js 핸들링을 위한 라우트
   server.all('*', (req, res) => {

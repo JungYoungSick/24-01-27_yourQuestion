@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 
 // 동적으로 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
@@ -13,6 +14,30 @@ const Talk = dynamic(() => import("@/app/component/button/talk"), {
 });
 
 const MainPage: React.FC = () => {
+  const [inputValue, setInputValue] = useState<string>("");
+
+  // 입력값을 서버로 전송하는 함수입니다.
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/nosql/mongodb", {
+        // 여기에 적절한 엔드포인트를 사용합니다.
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: inputValue }), // 서버에 보낼 데이터를 JSON 형태로 변환합니다.
+      });
+      const data = await response.json();
+      console.log(data); // 서버 응답을 콘솔에 출력합니다.
+    } catch (error) {
+      console.error("서버로 데이터를 전송하는 중 오류가 발생했습니다:", error);
+    }
+  };
+  // 입력창의 값이 변경될 때마다 실행되는 함수입니다.
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value); // 입력값 상태를 업데이트합니다.
+  };
+
   return (
     <div className="flex flex-col h-screen bg-pink-100">
       <header className="flex justify-between p-4">
@@ -46,8 +71,15 @@ const MainPage: React.FC = () => {
             type="text"
             placeholder="문구 입력..."
             className="flex-grow p-2 rounded-l text-black"
+            value={inputValue} // 입력창의 상태를 value로 설정합니다.
+            onChange={handleInputChange} // 입력창의 값이 변경될 때마다 handleInputChange 함수를 호출합니다.
           />
-          <button className="p-2 bg-yellow-300 rounded-r">➡️</button>
+          <button
+            className="p-2 bg-yellow-300 rounded-r"
+            onClick={handleSubmit} // 버튼을 클릭하면 handleSubmit 함수를 호출합니다.
+          >
+            ➡️
+          </button>
         </div>
       </footer>
     </div>
