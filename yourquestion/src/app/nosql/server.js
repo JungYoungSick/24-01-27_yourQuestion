@@ -1,6 +1,7 @@
 // nosql/server.js
 console.log('MongoDB를 시작합니다.')
 const { MongoClient } = require('mongodb');
+const moment = require('moment-timezone');
 
 // MongoDB 연결 문자열입니다. 실제 환경에 맞게 수정해야 합니다.
 // 주석 처리된 부분을 환경 변수 등으로 대체하는 것이 보안에 좋습니다.
@@ -33,11 +34,11 @@ async function saveToMongoDB(data, callback) {
     // 데이터베이스와 컬렉션을 선택합니다.
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
-
+    const getKoreanTimeDate = moment.utc().add(9, 'hours').toDate();
     // 현재 날짜와 시간을 추가합니다.
     const documentToInsert = {
       ...data,
-      receivedAt: new Date() // 현재 날짜와 시간을 기록합니다.
+      receivedAt: getKoreanTimeDate() // 현재 날짜와 시간을 기록합니다.
     };
 
     // 데이터를 컬렉션에 삽입합니다.
