@@ -1,3 +1,59 @@
+const express = require("express");
+const next = require('next');
+
+const { saveToMariaDB } = require('./src/app/mysql/server');
+const { saveToMongoDB } = require('./src/app/nosql/server');
+
+const isDev = process.env.NODE_ENV !== 'production';
+const app = next({ dev: isDev });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  const server = express();
+
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: true }));
+
+  // MariaDB 데이터 저장 API
+  server.post("/api/mariadb", (req, res) => {
+    const data = req.body;
+    saveToMariaDB(data, (error, result) => {
+      if (error) {
+        res.status(500).send("MariaDB에 데이터 저장 중 오류 발생");
+      } else {
+        res.status(200).send("MariaDB에 데이터 저장 완료");
+      }
+    });
+  });
+
+  // MongoDB 데이터 저장 API
+  server.post("/api/mongodb", (req, res) => {
+    const data = req.body;
+    saveToMongoDB(data, (error, result) => {
+      if (error) {
+        res.status(500).send("MongoDB에 데이터 저장 중 오류 발생");
+      } else {
+        res.status(200).send("MongoDB에 데이터 저장 완료");
+      }
+    });
+  });
+
+  // Next.js 핸들링을 위한 라우트
+  server.all('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  // 서버 리스닝
+  const port = process.env.PORT || 3000;
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});
+
+
+
+
 // const express = require("express");
 // const next = require('next');
 // const mysql = require('mysql2');
@@ -9,7 +65,7 @@
 // const crypto = require('crypto');     // 보안 관련 작업을 수행하는 모듈
 // const secretKey = crypto.randomBytes(32).toString('hex');
 // // MariaDB 연결 설정
-// const connection = dumi.createConnection({
+// const connection = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",
 //   password: "1216",
@@ -20,10 +76,10 @@
 //   server.use(express.json());
 //   server.use(express.urlencoded({ extended: true }));
 //   //채팅한 데이터들 기록 API 엔드포인트
-//   server.post("/talk", (req,res) => {
-//     const {} = req.body;
+//   server.post("/talk", (req, res) => {
+//     const { listngsAndReviews } = req.body;
 //   }
-//     )
+//   )
 
 //   // 로그인 API 엔드포인트
 //   server.post("/login", (req, res) => {
