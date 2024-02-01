@@ -34,8 +34,14 @@ async function saveToMongoDB(data, callback) {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
+    // 현재 날짜와 시간을 추가합니다.
+    const documentToInsert = {
+      ...data,
+      receivedAt: new Date() // 현재 날짜와 시간을 기록합니다.
+    };
+
     // 데이터를 컬렉션에 삽입합니다.
-    const result = await collection.insertOne(data);
+    const result = await collection.insertOne(documentToInsert);
     console.log(`MongoDB에 데이터가 저장되었습니다: ${result.insertedId}`);
     // 콜백에 null과 결과를 전달하여 성공을 알립니다.
     callback(null, { message: "데이터 저장 성공", _id: result.insertedId });

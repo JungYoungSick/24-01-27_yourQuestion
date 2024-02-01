@@ -19,9 +19,9 @@ app.prepare().then(() => {
     const data = req.body;
     saveToMongoDB(data, (error, result) => {
       if (error) {
-        res.status(500).send("MongoDB에 데이터 저장 중 오류 발생");
+        res.status(500).json({ message: "MongoDB에 데이터 저장 중 오류 발생" });
       } else {
-        res.status(200).send("MongoDB에 데이터 저장 완료");
+        res.status(200).json({ message: "MongoDB에 데이터 저장 완료" });
       }
     });
   });
