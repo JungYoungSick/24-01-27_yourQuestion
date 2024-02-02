@@ -16,21 +16,26 @@ const Talk = dynamic(() => import("@/app/component/button/talk"), {
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(""); // user 컬렉션 데이터를 저장할 상태
   const [adminData, setAdminData] = useState<string>(""); // admin 컬렉션 데이터를 저장할 상태
-  // 입력값을 서버로 전송하는 함수입니다.
+  // 입력값을 서버로 전송하고 admin 컬렉션에서 데이터를 검색하는 함수입니다.
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/nosql/mongodb", {
-        // 여기에 적절한 엔드포인트를 사용합니다.
+      const response = await fetch("/nosql/searchAdmin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: inputValue }), // 서버에 보낼 데이터를 JSON 형태로 변환합니다.
+        body: JSON.stringify({ keyword: inputValue }),
       });
-      const data = await response.json();
-      console.log(data); // 서버 응답을 콘솔에 출력합니다.
+      const searchData = await response.json();
+      if (searchData.length > 0) {
+        setAdminData(searchData[0].text); // 첫 번째 검색 결과를 상태에 저장합니다.
+        console.log("첫번째 데이터 저장 완료");
+      } else {
+        setAdminData("조회할 데이터가 없습니다."); // 검색 결과가 없으면 메시지를 표시합니다.
+      }
     } catch (error) {
-      console.error("서버로 데이터를 전송하는 중 오류가 발생했습니다:", error);
+      console.error("Error fetching admin data:", error);
+      setAdminData("Error fetching data");
     }
   };
 

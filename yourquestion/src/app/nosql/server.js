@@ -60,7 +60,7 @@ async function getFromMongoDB(query) {
 
     // 쿼리를 사용하여 데이터를 검색합니다.
     const result = await collection.find(query).toArray();
-    console.log(`조회된 데이터: ${JSON.stringify(result, null, 2)}`);
+    // console.log(`조회된 데이터: ${JSON.stringify(result, null, 2)}`);
 
     // 함수에서 직접 결과를 반환합니다.
     return result;
@@ -78,5 +78,4 @@ async function getFromMongoDB(query) {
 
 // 서버 시작 시 MongoDB에 연결합니다.
 connectToMongoDB();
-getFromMongoDB();
-module.exports = { saveToMongoDB, getFromMongoDB };
+module.exports = { saveToMongoDB, getFromMongoDB, client };
