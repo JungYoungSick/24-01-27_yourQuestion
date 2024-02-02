@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // 동적으로 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
@@ -14,8 +14,8 @@ const Talk = dynamic(() => import("@/app/component/button/talk"), {
 });
 
 const MainPage: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>("");
-
+  const [inputValue, setInputValue] = useState<string>(""); // user 컬렉션 데이터를 저장할 상태
+  const [adminData, setAdminData] = useState<string>(""); // admin 컬렉션 데이터를 저장할 상태
   // 입력값을 서버로 전송하는 함수입니다.
   const handleSubmit = async () => {
     try {
@@ -33,6 +33,31 @@ const MainPage: React.FC = () => {
       console.error("서버로 데이터를 전송하는 중 오류가 발생했습니다:", error);
     }
   };
+
+  // MongoDB 'admin' 컬렉션에서 데이터를 가져오는 함수입니다.
+  const fetchAdminData = async () => {
+    try {
+      const response = await fetch("/nosql/mongodb?collection=admin");
+      const data = await response.json();
+      console.log(data); // 조회된 데이터를 콘솔에 출력
+      // 여기서 반환된 데이터를 상태에 저장하거나 UI에 표시하는 로직 추가
+    } catch (error) {
+      console.error(
+        "MongoDB로부터 데이터를 조회하는 중 오류가 발생했습니다:",
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchAdminData(); // 컴포넌트가 마운트될 때 admin 데이터를 조회합니다.
+  }, []); // 빈 의존성 배열을 통해 컴포넌트 마운트 시 한 번만 실행되도록 합니다.
+
+  const handleUserInput = async () => {
+    await handleSubmit(); // 기존의 데이터 전송 로직을 유지합니다.
+    await fetchAdminData(); // 데이터 전송 후 admin 데이터를 새로 조회합니다.
+  };
+
   // 입력창의 값이 변경될 때마다 실행되는 함수입니다.
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value); // 입력값 상태를 업데이트합니다.
@@ -57,7 +82,7 @@ const MainPage: React.FC = () => {
       <main className="flex-grow p-4">
         {/* 말풍선 */}
         <div className="p-4 bg-white rounded-lg shadow max-w-sm mx-auto text-black">
-          텍스트 내용이 여기에 들어갑니다.
+          {adminData} {/* admin 컬렉션으로부터 조회된 데이터를 표시합니다. */}
         </div>
         {/* 캐릭터 이미지 (임시로 텍스트로 대체) */}
         <div className="mx-auto my-4 text-black">캐릭터 이미지</div>
@@ -76,7 +101,7 @@ const MainPage: React.FC = () => {
           />
           <button
             className="p-2 bg-yellow-300 rounded-r"
-            onClick={handleSubmit} // 버튼을 클릭하면 handleSubmit 함수를 호출합니다.
+            onClick={handleUserInput} // 버튼을 클릭하면 handleSubmit 함수를 호출합니다.
           >
             ➡️
           </button>
