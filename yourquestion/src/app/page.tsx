@@ -28,14 +28,31 @@ const MainPage: React.FC = () => {
       });
       const searchData = await response.json();
       if (searchData.length > 0) {
-        setAdminData(searchData[0].text); // 첫 번째 검색 결과를 상태에 저장합니다.
+        setAdminData(searchData[0].text); // 첫 번째 검색 결과를 상태에 저장
         console.log("User 데이터 저장 완료");
+        saveSearchResultToAdmin(searchData[0].text); // 검색 결과를 admin 컬렉션에 저장
       } else {
         setAdminData("조회할 데이터가 없습니다."); // 검색 결과가 없으면 메시지를 표시합니다.
       }
     } catch (error) {
       console.error("Error fetching admin data:", error);
       setAdminData("Error fetching data");
+    }
+  };
+
+  // 검색된 데이터를 admin 컬렉션에 저장하는 함수
+  const saveSearchResultToAdmin = async (data: string | number) => {
+    try {
+      await fetch("/nosql/mongodb/admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: data }),
+      });
+      console.log("찾아온 데이터를 저장합니다.");
+    } catch (error) {
+      console.error("Failed to save search result to admin collection:", error);
     }
   };
 
