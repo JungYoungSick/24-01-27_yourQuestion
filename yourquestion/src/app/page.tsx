@@ -26,7 +26,6 @@ const MainPage: React.FC = () => {
         },
         body: JSON.stringify({ text: input }),
       });
-      console.log("사용자 입력 데이터 저장 완료");
     } catch (error) {
       console.error("사용자 입력 데이터 저장 실패:", error);
     }

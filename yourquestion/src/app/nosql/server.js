@@ -28,28 +28,26 @@ async function connectToMongoDB() {
 }
 
 // MongoDB에 데이터를 저장하는 함수입니다.
-async function saveToMongoDB(data, callback) {
+async function saveToMongoDB(data) {
   try {
-    // 데이터베이스와 컬렉션을 선택합니다.
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    // 현재 날짜와 시간을 추가합니다.
     const documentToInsert = {
       ...data,
       receivedAt: new Date() // 현재 날짜와 시간을 기록합니다.
     };
 
-    // 데이터를 컬렉션에 삽입합니다.
     const result = await collection.insertOne(documentToInsert);
     console.log(`MongoDB에 데이터가 저장되었습니다: ${result.insertedId}`);
-    // 콜백에 null과 결과를 전달하여 성공을 알립니다.
-    callback(null, { message: "데이터 저장 성공", _id: result.insertedId });
+
+    return { message: "데이터 저장 성공", _id: result.insertedId }; // 성공 메시지와 ID를 반환합니다.
   } catch (error) {
-    // 에러가 발생하면 콜백에 에러를 전달합니다.
-    callback(error);
+    console.error('MongoDB에 데이터 저장 중 오류 발생:', error);
+    throw error; // 에러를 던져서 호출한 쪽에서 처리할 수 있도록 합니다.
   }
 }
+
 // MongoDB에 admin 컬렉션에 데이터를 저장하는 함수입니다.
 async function saveToAdminCollection(data) {
   const db = client.db('prompt');

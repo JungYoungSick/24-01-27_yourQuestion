@@ -16,15 +16,15 @@ app.prepare().then(() => {
   server.use(express.urlencoded({ extended: true }));
   console.log('서버 연결')
 
+  // server.js 또는 app.js 내에 있는 해당 부분
   server.post("/nosql/mongodb/user", async (req, res) => {
-    // user 컬렉션에 데이터를 저장하는 로직을 구현합니다.
-    const { text } = req.body;
     try {
-      const result = await saveToMongoDB({ text }); // `saveToMongoDB` 함수는 이미 정의되어 있다고 가정합니다.
-      res.status(200).json({ message: "User data saved successfully", _id: result.insertedId });
+      const data = req.body;
+      const saveResult = await saveToMongoDB(data); // saveToMongoDB 함수 호출
+      res.status(200).json(saveResult); // 성공 응답을 클라이언트에 보냅니다.
     } catch (error) {
-      console.error("Error saving user data:", error);
-      res.status(500).json({ message: "Error saving user data", error });
+      console.error("MongoDB에 데이터 저장 중 오류 발생:", error);
+      res.status(500).json({ message: "MongoDB에 데이터 저장 중 오류 발생", error });
     }
   });
   server.get("/nosql/mongodb", (req, res) => {
