@@ -29,7 +29,7 @@ const MainPage: React.FC = () => {
       const searchData = await response.json();
       if (searchData.length > 0) {
         setAdminData(searchData[0].text); // 첫 번째 검색 결과를 상태에 저장합니다.
-        console.log("첫번째 데이터 저장 완료");
+        console.log("User 데이터 저장 완료");
       } else {
         setAdminData("조회할 데이터가 없습니다."); // 검색 결과가 없으면 메시지를 표시합니다.
       }
@@ -46,6 +46,7 @@ const MainPage: React.FC = () => {
       const data = await response.json();
       console.log(data); // 조회된 데이터를 콘솔에 출력
       // 여기서 반환된 데이터를 상태에 저장하거나 UI에 표시하는 로직 추가
+      console.log("여기다");
     } catch (error) {
       console.error(
         "MongoDB로부터 데이터를 조회하는 중 오류가 발생했습니다:",

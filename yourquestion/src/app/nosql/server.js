@@ -50,6 +50,20 @@ async function saveToMongoDB(data, callback) {
     callback(error);
   }
 }
+// MongoDB에 admin 컬렉션에 데이터를 저장하는 함수입니다.
+async function saveToAdminCollection(data) {
+  const db = client.db('prompt');
+  const adminCollection = db.collection('admin');
+
+  const documentToInsert = {
+    ...data,
+    receivedAt: new Date() // 현재 날짜와 시간을 기록합니다.
+  };
+  const result = await adminCollection.insertOne(documentToInsert);
+  console.log(`New document added to admin collection: ${result.insertedId}`);
+  console.log("Admin 데이터 저장 완료")
+  return result;
+}
 
 // MongoDB에서 데이터를 조회하는 함수입니다.
 async function getFromMongoDB(query) {
@@ -63,6 +77,7 @@ async function getFromMongoDB(query) {
     // console.log(`조회된 데이터: ${JSON.stringify(result, null, 2)}`);
 
     // 함수에서 직접 결과를 반환합니다.
+    console.log("Admin 데이터 불러오기 완료")
     return result;
   } catch (error) {
     // 에러가 발생하면 에러를 로깅하고, 에러를 던집니다.
@@ -72,10 +87,7 @@ async function getFromMongoDB(query) {
 }
 
 
-
-
-
-
 // 서버 시작 시 MongoDB에 연결합니다.
 connectToMongoDB();
-module.exports = { saveToMongoDB, getFromMongoDB, client };
+
+module.exports = { saveToMongoDB, getFromMongoDB, saveToAdminCollection, client };

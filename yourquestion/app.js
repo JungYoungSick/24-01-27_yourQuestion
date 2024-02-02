@@ -2,7 +2,7 @@ const express = require("express");
 const next = require('next');
 
 const { saveToMariaDB } = require('./src/app/mysql/server');
-const { saveToMongoDB, getFromMongoDB, client } = require('./src/app/nosql/server');
+const { saveToMongoDB, getFromMongoDB, saveToAdminCollection, client } = require('./src/app/nosql/server');
 
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -16,7 +16,7 @@ app.prepare().then(() => {
   server.use(express.urlencoded({ extended: true }));
   console.log('서버 연결')
 
-  server.post("/nosql/mongodb", (req, res) => {
+  server.post("/nosql/mongodb/user", async (req, res) => {
     const data = req.body;
     saveToMongoDB(data, (error, result) => {
       if (error) {
@@ -34,6 +34,7 @@ app.prepare().then(() => {
         console.error("MongoDB 조회 에러:", error);
         return res.status(500).json({ message: "MongoDB에서 데이터 조회 중 오류 발생" });
       }
+      console.log("getFromMongoDB 조회 완료");
       return res.status(200).json(result);
     });
   });
@@ -53,6 +54,19 @@ app.prepare().then(() => {
     } catch (error) {
       console.error("Error searching in admin collection", error);
       res.status(500).json({ message: "Error searching in admin collection", error });
+    }
+  });
+
+  // 서버의 POST 요청 처리 로직에서는 이 함수를 호출하여 데이터를 저장합니다.
+  server.post("/nosql/mongodb/admin", async (req, res) => {
+    try {
+      const data = req.body;
+      await saveToAdminCollection(data); // saveToAdminCollection 함수를 호출하여 데이터를 저장합니다.
+      res.status(200).json({ message: "Data saved to admin collection" });
+      console.log("호출된 admin data 저장 완료")
+    } catch (error) {
+      console.error("Error saving data to admin collection:", error);
+      res.status(500).json({ message: "Error saving data to admin collection", error });
     }
   });
 
