@@ -1,36 +1,45 @@
 "use client";
 // src/components/Talk.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type MessageType = "user" | "bot";
 
 interface Message {
   type: MessageType;
   text: string;
+  timestamp: Date;
 }
 
 export const Talk: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // 팝업 상태 관리
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen); // 팝업 상태 토글
-  };
-  // 새로운 사용자 질문을 추가하는 함수
-  const addNewUserQuestion = (questionText: string) => {
-    const newQuestion: Message = { type: "user", text: questionText };
-    setMessages((prevMessages) => [...prevMessages, newQuestion]);
-
-    // TODO: 여기서 답변자의 대답 로직을 추가
-  };
-
-  // 새로운 답변자의 대답을 추가하는 함수
-  const addNewBotResponse = (responseText: string) => {
-    const newResponse: Message = { type: "bot", text: responseText };
-    setMessages((prevMessages) => [...prevMessages, newResponse]);
+  // 서버에서 메시지 목록을 가져오는 함수
+  const fetchMessages = async () => {
+    try {
+      const response = await fetch("/nosql/mongodb"); // MongoDB로 연결되는 API 엔드포인트로 변경해야 함
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+      const fetchedMessages = await response.json();
+      setMessages(fetchedMessages);
+    } catch (error) {
+      console.error("Failed to fetch messages:", error);
+    }
   };
 
-  // 메시지 렌더링
+  // 컴포넌트가 마운트되었을 때와 팝업이 열릴 때 메시지를 가져옵니다.
+  useEffect(() => {
+    if (isPopupOpen) {
+      fetchMessages(); // 팝업이 열릴 때 최신 메시지를 가져옵니다.
+      const intervalId = setInterval(fetchMessages, 5000); // 5초마다 메시지를 가져옵니다.
+      return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+    }
+  }, [isPopupOpen]);
+
+  const togglePopup = () => setIsPopupOpen(!isPopupOpen);
+
+  // 메시지 렌더링 함수
   const renderMessages = () =>
     messages.map((message, index) => (
       <div
