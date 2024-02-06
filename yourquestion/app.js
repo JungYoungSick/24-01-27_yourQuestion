@@ -1,61 +1,84 @@
 const express = require("express");
 const next = require('next');
-const mysql = require('mysql2');
-const isDev = process.env.NODE_ENV !== 'development';
+
+const { saveToMariaDB } = require('./src/app/mysql/server');
+const { saveToMongoDB, getFromMongoDB, saveToAdminCollection, client } = require('./src/app/nosql/server');
+
+
+const isDev = process.env.NODE_ENV !== 'production';
 const app = next({ dev: isDev });
 const handle = app.getRequestHandler();
-// 로그인 토큰 발행을 위한 import
-const jwt = require('jsonwebtoken');  //
-const crypto = require('crypto');     // 보안 관련 작업을 수행하는 모듈
-const secretKey = crypto.randomBytes(32).toString('hex');
-// MariaDB 연결 설정
-const connection = dumi.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1216",
-  database: "admin",
-});
+
 app.prepare().then(() => {
   const server = express();
+
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
-  //채팅한 데이터들 기록 API 엔드포인트
-  server.post("/talk", (req, res) => {
-    const { } = req.body;
-  }
-  )
+  console.log('서버 연결')
 
-  // 로그인 API 엔드포인트
-  server.post("/login", (req, res) => {
-    const { lyrics } = req.body;
-    // 해당 사용자가 존재하는지 확인하는 쿼리
-    // const query = "SELECT * FROM korean WHERE lyrics = ? AND verse = 0 "; 
-    //! 위 query는 로그인 작업 시 내 데이터명 정보로 데이터 변경 필요.
-    connection.query(query, [lyrics], (err, results, fields) => {
-      if (err) {
-        console.error("Error logging in:", err);
-        res.status(500).json({ message: "로그인에 실패했습니다." });
-        return;
+  // server.js 또는 app.js 내에 있는 해당 부분
+  server.post("/nosql/mongodb/user", async (req, res) => {
+    try {
+      const data = req.body;
+      const saveResult = await saveToMongoDB(data); // saveToMongoDB 함수 호출
+      res.status(200).json(saveResult); // 성공 응답을 클라이언트에 보냅니다.
+    } catch (error) {
+      console.error("MongoDB에 데이터 저장 중 오류 발생:", error);
+      res.status(500).json({ message: "MongoDB에 데이터 저장 중 오류 발생", error });
+    }
+  });
+  server.get("/nosql/mongodb", (req, res) => {
+    const query = req.query;
+
+    getFromMongoDB(query, (error, result) => {
+      if (error) {
+        console.error("MongoDB 조회 에러:", error);
+        return res.status(500).json({ message: "MongoDB에서 데이터 조회 중 오류 발생" });
       }
-      // 로그인 성공 여부 확인
-      if (results.length > 0) {
-        const user = results[0];
-        const tokenPayload = {
-          lyrics: user.lyrics,
-        };
-        const token = jwt.sign(tokenPayload, secretKey, { expiresIn: '1h' });
-        res.status(200).json({ message: "정상적인 연결입니다.", token });
-      } else {
-        res.status(401).json({ message: "연결이 되지 않습니다." });
-      }
+      console.log("getFromMongoDB 조회 완료");
+      return res.status(200).json(result);
     });
   });
-  // Next.js 서버에 라우팅 위임
+
+  server.post("/nosql/searchAdmin", async (req, res) => {
+    try {
+      const keyword = req.body.keyword;
+      const db = client.db('prompt');
+      const collection = db.collection('admin');
+
+      // 부분 문자열 검색을 위한 정규 표현식 사용
+      const query = keyword ? { text: { $regex: keyword, $options: "i" } } : {};
+      const results = await collection.find(query).toArray();
+
+      res.status(200).json(results);
+      console.log("메인서버 데이터 받기 이상없음")
+    } catch (error) {
+      console.error("Error searching in admin collection", error);
+      res.status(500).json({ message: "Error searching in admin collection", error });
+    }
+  });
+
+  // 서버의 POST 요청 처리 로직에서는 이 함수를 호출하여 데이터를 저장합니다.
+  server.post("/nosql/mongodb/admin", async (req, res) => {
+    try {
+      const data = req.body;
+      await saveToAdminCollection(data); // saveToAdminCollection 함수를 호출하여 데이터를 저장합니다.
+      res.status(200).json({ message: "Data saved to admin collection" });
+      console.log("호출된 admin data 저장 완료")
+    } catch (error) {
+      console.error("Error saving data to admin collection:", error);
+      res.status(500).json({ message: "Error saving data to admin collection", error });
+    }
+  });
+
+
+  // Next.js 핸들링을 위한 라우트
   server.all('*', (req, res) => {
     return handle(req, res);
   });
-  // 서버 시작
-  const port = 3000;
+
+  // 서버 리스닝
+  const port = process.env.PORT || 3000;
   server.listen(port, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${port}`);
