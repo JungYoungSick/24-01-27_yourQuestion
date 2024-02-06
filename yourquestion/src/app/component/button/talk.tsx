@@ -27,14 +27,38 @@ export const Talk: React.FC = () => {
       console.error("Failed to fetch messages:", error);
     }
   };
+  // 서버에서 메시지 목록을 가져오는 함수
+  const fetchAdminMessages = async () => {
+    try {
+      const response = await fetch("/talk?message=admin");
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+      const fetchedMessages = await response.json();
+      setMessages(fetchedMessages);
+    } catch (error) {
+      console.error("Failed to fetch messages:", error);
+    }
+  };
 
-  // 컴포넌트가 마운트되었을 때와 팝업이 열릴 때 메시지를 가져옵니다.
   useEffect(() => {
     if (isPopupOpen) {
-      fetchMessages(); // 팝업이 열릴 때 최신 메시지를 가져옵니다.
-      const intervalId = setInterval(fetchMessages, 5000); // 5초마다 메시지를 가져옵니다.
-      return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+      // 팝업이 열릴 때 최신 메시지를 가져옵니다.
+      fetchMessages();
+      fetchAdminMessages();
+
+      // user 메시지를 가져오는 인터벌 설정
+      const intervalUser = setInterval(fetchMessages, 5000);
+      // admin 메시지를 가져오는 인터벌 설정
+      const intervalAdmin = setInterval(fetchAdminMessages, 5000);
+
+      // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+      return () => {
+        clearInterval(intervalUser);
+        clearInterval(intervalAdmin);
+      };
     }
+    // isPopupOpen이 변경될 때마다 useEffect 훅을 실행합니다.
   }, [isPopupOpen]);
 
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
