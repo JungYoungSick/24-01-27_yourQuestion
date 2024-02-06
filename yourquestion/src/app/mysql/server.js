@@ -1,1 +1,0 @@
-console.log("여기는 mysql입니다.")
