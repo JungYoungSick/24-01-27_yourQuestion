@@ -48,8 +48,6 @@ app.prepare().then(() => {
     } catch (error) {
       console.error("Failed to fetch messages from MongoDB:", error);
       res.status(500).json({ message: "Failed to fetch messages", error: error.toString() });
-    } finally {
-      await client.close();
     }
   });
 
