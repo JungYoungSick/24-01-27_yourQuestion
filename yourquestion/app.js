@@ -38,7 +38,7 @@ app.prepare().then(() => {
       return res.status(200).json(result);
     });
   });
-  server.get("/talk/message", async (req, res) => {
+  server.get("/talk", async (req, res) => {
     try {
       await client.connect();
       const database = client.db("prompt"); // 데이터베이스 이름 설정
