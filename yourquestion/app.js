@@ -1,7 +1,7 @@
 const express = require("express");
 const next = require('next');
 
-const { saveToMariaDB } = require('./src/app/mysql/server');
+
 const { saveToMongoDB, getFromMongoDB, saveToAdminCollection, client } = require('./src/app/nosql/server');
 
 
