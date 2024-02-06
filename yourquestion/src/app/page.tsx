@@ -48,7 +48,7 @@ const MainPage: React.FC = () => {
         saveSearchResultToAdmin(searchData[0].text); // 검색 결과를 admin 컬렉션에 저장
       } else {
         setAdminData("조회할 데이터가 없습니다."); // 검색 결과가 없으면 메시지를 표시합니다.
-        saveSearchResultToAdmin("조회실패를 저장합니다."); // 메시지를 admin 컬렉션에 저장
+        saveSearchResultToAdmin("조회할 데이터가 없습니다."); // 메시지를 admin 컬렉션에 저장
       }
       saveUserInput(inputValue); // 사용자 입력값을 user 컬렉션에 저장
     } catch (error) {
@@ -73,29 +73,8 @@ const MainPage: React.FC = () => {
     }
   };
 
-  // // MongoDB 'admin' 컬렉션에서 데이터를 가져오는 함수입니다.
-  // const fetchAdminData = async () => {
-  //   try {
-  //     const response = await fetch("/nosql/mongodb?collection=admin");
-  //     const data = await response.json();
-  //     console.log(data); // 조회된 데이터를 콘솔에 출력
-  //     // 여기서 반환된 데이터를 상태에 저장하거나 UI에 표시하는 로직 추가
-  //     console.log("여기다");
-  //   } catch (error) {
-  //     console.error(
-  //       "MongoDB로부터 데이터를 조회하는 중 오류가 발생했습니다:",
-  //       error
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchAdminData(); // 컴포넌트가 마운트될 때 admin 데이터를 조회합니다.
-  // }, []); // 빈 의존성 배열을 통해 컴포넌트 마운트 시 한 번만 실행되도록 합니다.
-
   const handleUserInput = async () => {
     await handleSubmit(); // 기존의 데이터 전송 로직을 유지합니다.
-    // await fetchAdminData(); // 데이터 전송 후 admin 데이터를 새로 조회합니다.
   };
 
   // 입력창의 값이 변경될 때마다 실행되는 함수입니다.
