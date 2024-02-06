@@ -17,7 +17,7 @@ export const Talk: React.FC = () => {
   // 서버에서 메시지 목록을 가져오는 함수
   const fetchMessages = async () => {
     try {
-      const response = await fetch("/nosql/mongodb"); // MongoDB로 연결되는 API 엔드포인트로 변경해야 함
+      const response = await fetch("/talk?message=user");
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -38,19 +38,6 @@ export const Talk: React.FC = () => {
   }, [isPopupOpen]);
 
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
-
-  // 메시지 렌더링 함수
-  const renderMessages = () =>
-    messages.map((message, index) => (
-      <div
-        key={index}
-        className={`message ${
-          message.type === "user" ? "user-message" : "bot-message"
-        }`}
-      >
-        {message.text}
-      </div>
-    ));
 
   return (
     <>

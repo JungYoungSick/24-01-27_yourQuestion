@@ -1,8 +1,7 @@
 const express = require("express");
 const next = require('next');
 
-const { saveToMariaDB } = require('./src/app/mysql/server');
-const { saveToMongoDB, getFromMongoDB, saveToAdminCollection, client } = require('./src/app/nosql/server');
+const { userSaveToMongoDB, getFromMongoDB, adminSaveToMongoDB, client } = require('./src/app/nosql/server');
 
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -14,13 +13,13 @@ app.prepare().then(() => {
 
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
-  console.log('서버 연결')
+  console.log('서버 연결 완료')
 
   // server.js 또는 app.js 내에 있는 해당 부분
   server.post("/nosql/mongodb/user", async (req, res) => {
     try {
       const data = req.body;
-      const saveResult = await saveToMongoDB(data); // saveToMongoDB 함수 호출
+      const saveResult = await userSaveToMongoDB(data);
       res.status(200).json(saveResult); // 성공 응답을 클라이언트에 보냅니다.
     } catch (error) {
       console.error("MongoDB에 데이터 저장 중 오류 발생:", error);
@@ -38,6 +37,20 @@ app.prepare().then(() => {
       console.log("getFromMongoDB 조회 완료");
       return res.status(200).json(result);
     });
+  });
+  server.get("/talk/message", async (req, res) => {
+    try {
+      await client.connect();
+      const database = client.db("prompt"); // 데이터베이스 이름 설정
+      const collection = database.collection("messages"); // 컬렉션 이름 설정
+      const messages = await collection.find({}).toArray(); // 모든 메시지 조회
+      res.status(200).json(messages);
+    } catch (error) {
+      console.error("Failed to fetch messages from MongoDB:", error);
+      res.status(500).json({ message: "Failed to fetch messages", error: error.toString() });
+    } finally {
+      await client.close();
+    }
   });
 
   server.post("/nosql/searchAdmin", async (req, res) => {
@@ -62,7 +75,7 @@ app.prepare().then(() => {
   server.post("/nosql/mongodb/admin", async (req, res) => {
     try {
       const data = req.body;
-      await saveToAdminCollection(data); // saveToAdminCollection 함수를 호출하여 데이터를 저장합니다.
+      await adminSaveToMongoDB(data);
       res.status(200).json({ message: "Data saved to admin collection" });
       console.log("호출된 admin data 저장 완료")
     } catch (error) {
