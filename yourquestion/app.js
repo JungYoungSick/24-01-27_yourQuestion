@@ -42,7 +42,7 @@ app.prepare().then(() => {
     try {
       await client.connect();
       const database = client.db("prompt"); // 데이터베이스 이름 설정
-      const collection = database.collection("messages"); // 컬렉션 이름 설정
+      const collection = database.collection("user"); // 컬렉션 이름 설정
       const messages = await collection.find({}).toArray(); // 모든 메시지 조회
       res.status(200).json(messages);
     } catch (error) {
