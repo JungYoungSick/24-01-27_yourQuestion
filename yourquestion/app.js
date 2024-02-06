@@ -70,6 +70,23 @@ app.prepare().then(() => {
       res.status(500).json({ message: "Error saving data to admin collection", error });
     }
   });
+  // 동적 컬렉션 이름을 사용하여 MongoDB에서 데이터를 조회하는 엔드포인트
+  server.get("/nosql/mongodb", async (req, res) => {
+    try {
+      const collectionName = req.query.collection || 'user'; // 쿼리스트링에서 collection 값을 가져옴
+      const collection = client.db('prompt').collection(collectionName);
+
+      if (!collection) {
+        return res.status(400).json({ message: "Invalid collection name" });
+      }
+
+      const data = await collection.find({}).toArray();
+      res.status(200).json(data);
+    } catch (error) {
+      console.error("Error fetching data from MongoDB:", error);
+      res.status(500).json({ message: "MongoDB에서 데이터 조회 중 오류 발생", error });
+    }
+  });
 
 
   // Next.js 핸들링을 위한 라우트
