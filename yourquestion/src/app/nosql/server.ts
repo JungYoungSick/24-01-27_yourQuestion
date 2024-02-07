@@ -6,6 +6,7 @@ const client: MongoClient = new MongoClient(uri);
 const dbName: string = "prompt";
 const collectionUserName: string = "user";
 const collectionAdminName: string = "admin";
+let documentCount: number = 0;
 
 async function connectToMongoDB(): Promise<void> {
   try {
@@ -18,13 +19,16 @@ async function connectToMongoDB(): Promise<void> {
 
 async function userSaveToMongoDB(
   data: Record<string, any>
-): Promise<{ message: string; _id: unknown }> {
+): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
   try {
     const db = client.db(dbName);
     const collection = db.collection(collectionUserName);
 
+    documentCount++;
+    const sequenceNumber = documentCount;
     const documentToInsert = {
       ...data,
+      sequenceNumber,
       receivedAt: new Date(),
     };
 
@@ -33,7 +37,11 @@ async function userSaveToMongoDB(
       `MongoDB에 사용자 데이터가 저장되었습니다: ${result.insertedId}`
     );
 
-    return { message: "사용자 데이터 저장 성공", _id: result.insertedId };
+    return {
+      message: "사용자 데이터 저장 성공",
+      _id: result.insertedId,
+      sequenceNumber,
+    };
   } catch (error) {
     console.error("MongoDB에 사용자 데이터 저장 중 오류 발생:", error);
     throw error;
@@ -42,20 +50,27 @@ async function userSaveToMongoDB(
 
 async function adminSaveToMongoDB(
   data: Record<string, any>
-): Promise<{ message: string; _id: unknown }> {
+): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
   try {
     const db = client.db(dbName);
     const adminCollection = db.collection(collectionAdminName);
 
+    documentCount++;
+    const sequenceNumber = documentCount;
     const documentToInsert = {
       ...data,
+      sequenceNumber,
       receivedAt: new Date(),
     };
 
     const result = await adminCollection.insertOne(documentToInsert);
     console.log(`MongoDB에 유저 데이터가 저장되었습니다: ${result.insertedId}`);
 
-    return { message: "사용자 데이터 저장 성공", _id: result.insertedId };
+    return {
+      message: "사용자 데이터 저장 성공",
+      _id: result.insertedId,
+      sequenceNumber,
+    };
   } catch (error) {
     console.error("MongoDB에 사용자 데이터 저장 중 오류 발생:", error);
     throw error;

@@ -7,6 +7,7 @@ type MessageType = "user" | "admin";
 interface Message {
   type: MessageType;
   text: string;
+  // number: messageNumber,
   timestamp: Date;
 }
 
@@ -15,8 +16,8 @@ export const Talk: React.FC = () => {
   const [adminMessages, adminSetMessages] = useState<Message[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // 서버에서 메시지 목록을 가져오는 함수
-  const fetchMessages = async () => {
+  // 서버에서 유저메시지 목록을 가져오는 함수
+  const fetchUserMessages = async () => {
     try {
       const response = await fetch("/talk/user?message=user");
       if (!response.ok) {
@@ -47,11 +48,11 @@ export const Talk: React.FC = () => {
   useEffect(() => {
     if (isPopupOpen) {
       // 팝업이 열릴 때 최신 메시지를 가져옵니다.
-      fetchMessages();
+      fetchUserMessages();
       fetchAdminMessages();
 
       // user 메시지를 가져오는 인터벌 설정
-      const intervalUser = setInterval(fetchMessages, 5000);
+      const intervalUser = setInterval(fetchUserMessages, 5000);
       // admin 메시지를 가져오는 인터벌 설정
       const intervalAdmin = setInterval(fetchAdminMessages, 5000);
 
@@ -81,8 +82,9 @@ export const Talk: React.FC = () => {
                 📌
               </button>
             </div>
+            {/* 전체 div */}
             <div className="h-5/6 overflow-y-auto whitespace-nowrap">
-              <div className="flex justify-between  ">
+              <div className="flex justify-between">
                 <div className="flex flex-col space-y-4 p-4  overflow-y-auto whitespace-nowrap  mt-10">
                   {adminMessages.map((message, index) =>
                     message.type === "admin" ? (
