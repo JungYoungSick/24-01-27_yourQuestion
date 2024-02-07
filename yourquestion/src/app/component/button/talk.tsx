@@ -7,7 +7,7 @@ type MessageType = "user" | "admin";
 interface Message {
   type: MessageType;
   text: string;
-  // number: messageNumber,
+  sequenceNumber: number;
   timestamp: Date;
 }
 
@@ -15,6 +15,10 @@ export const Talk: React.FC = () => {
   const [userMessages, userSetMessages] = useState<Message[]>([]);
   const [adminMessages, adminSetMessages] = useState<Message[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  // 메시지 배열을 결합하고 sequenceNumber로 정렬하는 로직
+  const combinedMessages = [...userMessages, ...adminMessages].sort(
+    (a, b) => a.sequenceNumber - b.sequenceNumber
+  );
 
   // 서버에서 유저메시지 목록을 가져오는 함수
   const fetchUserMessages = async () => {
@@ -97,43 +101,28 @@ export const Talk: React.FC = () => {
               </button>
             </div>
             {/* 전체 div */}
-            <div className="h-5/6 overflow-y-auto whitespace-nowrap">
-              <div className="flex justify-between">
-                <div className="flex flex-col space-y-4 p-4  overflow-y-auto whitespace-nowrap  mt-10">
-                  {adminMessages.map((message, index) =>
-                    message.type === "admin" ? (
-                      // Admin 메시지: 오른쪽 정렬
-                      <div key={index} className="flex justify-start">
-                        <div>{message.text}</div>
-                      </div>
-                    ) : (
-                      <div key={index} className="flex justify-end items-start">
-                        <div className="bg-pink-500 rounded px-4 py-2 shadow text-white mb-8">
-                          {message.text}
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
-                <div className="flex flex-col space-y-4 p-4 overflow-y-auto whitespace-nowrap">
-                  {userMessages.map((message, index) =>
-                    message.type === "user" ? (
-                      // User 메시지: 왼쪽 정렬
-                      <div key={index} className="flex justify-start">
-                        <div>{message.text}</div>
-                      </div>
-                    ) : (
-                      <div
-                        key={index}
-                        className="flex justify-end items-start "
-                      >
-                        <div className="bg-blue-500 rounded px-4 py-2 shadow text-white mb-8">
-                          {message.text}
-                        </div>
-                      </div>
-                    )
-                  )}
-                </div>
+            <div className="flex mt-10 w-full h-5/6 overflow-y-auto whitespace-nowrap bg-gray-500">
+              <div className="flex flex-col space-y-4 p-2">
+                {combinedMessages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex ${
+                      message.sequenceNumber % 2 === 0
+                        ? "justify-end ml-auto w-11/12"
+                        : "justify-start mr-auto w-11/12"
+                    } items-start `}
+                  >
+                    <div
+                      className={`rounded px-4 py-2 shadow text-white break-words overflow-y-auto whitespace-normal w-auto ${
+                        message.sequenceNumber % 2 === 0
+                          ? "bg-pink-300"
+                          : "bg-blue-300"
+                      }`}
+                    >
+                      {message.text}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
