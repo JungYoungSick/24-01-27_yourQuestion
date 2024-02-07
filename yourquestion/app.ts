@@ -2,8 +2,6 @@ import express, { Request, Response } from "express";
 import next from "next";
 import { MongoClient } from "mongodb";
 
-// MongoDB 연결 및 기능 구현 파일 임포트
-// 여기서는 상대 경로를 사용하며, 실제 경로에 따라 수정해야 합니다.
 import {
   userSaveToMongoDB,
   getFromMongoDB,
@@ -77,6 +75,40 @@ app.prepare().then(() => {
       res
         .status(500)
         .json({ message: "Error saving data to admin collection", error });
+    }
+  });
+
+  server.get("/talk/user", async (req: Request, res: Response) => {
+    try {
+      const dbName = "prompt";
+      const collectionName = "user";
+      await client.connect();
+      const database = client.db(dbName); // 데이터베이스 이름 설정
+      const collection = database.collection(collectionName); // 컬렉션 이름 설정
+      const messages = await collection.find({}).toArray(); // 모든 메시지 조회
+      res.status(200).json(messages);
+    } catch (error) {
+      console.error("Failed to fetch messages from MongoDB:", error);
+      res
+        .status(500)
+        .json({ message: "Failed to fetch messages", error: toString() });
+    }
+  });
+
+  server.get("/talk/admin", async (req: Request, res: Response) => {
+    try {
+      const dbName = "prompt";
+      const collectionName = "admin";
+      await client.connect();
+      const database = client.db(dbName); // 데이터베이스 이름 설정
+      const collection = database.collection(collectionName); // 컬렉션 이름 설정
+      const messages = await collection.find({}).toArray(); // 모든 메시지 조회
+      res.status(200).json(messages);
+    } catch (error) {
+      console.error("Failed to fetch messages from MongoDB:", error);
+      res
+        .status(500)
+        .json({ message: "Failed to fetch messages", error: toString() });
     }
   });
 

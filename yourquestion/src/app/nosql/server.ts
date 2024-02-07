@@ -67,7 +67,7 @@ async function getFromMongoDB(
 ): Promise<Array<Record<string, any>>> {
   try {
     const db = client.db(dbName);
-    const collection = db.collection(collectionUserName); // 이 부분이 `collectionName`으로 되어 있었지만, 이는 정의되지 않은 변수입니다. context에 맞게 수정할 필요가 있습니다.
+    const collection = db.collection(collectionUserName);
 
     const result = await collection.find(query).toArray();
     console.log("Admin 데이터 불러오기 완료");

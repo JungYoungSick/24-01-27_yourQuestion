@@ -17,7 +17,7 @@ export const Talk: React.FC = () => {
   // 서버에서 메시지 목록을 가져오는 함수
   const fetchMessages = async () => {
     try {
-      const response = await fetch("/talk?message=user");
+      const response = await fetch("/talk/user?message=user");
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -30,7 +30,7 @@ export const Talk: React.FC = () => {
   // 서버에서 메시지 목록을 가져오는 함수
   const fetchAdminMessages = async () => {
     try {
-      const response = await fetch("/talk?message=admin");
+      const response = await fetch("/talk/admin?message=admin");
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -78,18 +78,20 @@ export const Talk: React.FC = () => {
                 📌
               </button>
             </div>
-            <ul>
-              {messages.map((message, index) => (
-                <li
-                  key={index}
-                  className={`message ${
-                    message.type === "user" ? "user-message" : "bot-message"
-                  }`}
-                >
-                  {message.text}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <ul>
+                {messages.map((message, index) => (
+                  <li
+                    key={index}
+                    className={`message ${
+                      message.type === "user" ? "user-message" : "bot-message"
+                    }`}
+                  >
+                    {message.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}
