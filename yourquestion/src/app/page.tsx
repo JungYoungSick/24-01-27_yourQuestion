@@ -1,17 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-
-// 동적으로 컴포넌트를 불러옵니다. 서버 사이드 렌더링을 비활성화합니다.
-const LoginPopup = dynamic(() => import("@/app/component/button/loginpopup"), {
-  ssr: false,
-});
-const TalkList = dynamic(() => import("@/app/component/button/talklist"), {
-  ssr: false,
-});
-const Talk = dynamic(() => import("@/app/component/button/talk"), {
-  ssr: false,
-});
+import React, { useState } from "react";
+import LoginPopup from "./component/button/loginpopup";
+import TalkList from "./component/button/talklist";
+import Talk from "./component/button/talk";
 
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(""); // user 컬렉션 데이터를 저장할 상태

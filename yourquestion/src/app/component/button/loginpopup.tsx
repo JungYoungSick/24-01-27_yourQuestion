@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const LoginPopup: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -11,24 +11,37 @@ const LoginPopup: React.FC = () => {
   const handleCloseClick = () => {
     setIsPopupOpen(false);
   };
+  useEffect(() => {
+    const closeOnEscape = (e: any) => {
+      if (e.key === "Escape") {
+        setIsPopupOpen(false);
+      }
+    };
 
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, []);
   return (
     <>
-      <button
-        className="p-2 bg-blue-200 rounded-full"
-        onClick={handleLoginClick}
-      >
+      <button aria-label="로그인" className="..." onClick={handleLoginClick}>
         👤
       </button>
-
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-15 flex justify-start items-center">
-          <div className="bg-white w-96 h-3/5 mt-14 mr-10 rounded-lg shadow-xl">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-15 flex justify-start items-center"
+          onClick={handleCloseClick}
+        >
+          <div
+            className="bg-white w-96 h-3/5 mt-14 mr-10 rounded-lg shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div
               className="w-11/12 h-16
             flex justify-end items-center"
             >
-              <button onClick={handleCloseClick}>📌</button>
+              <button onClick={handleCloseClick} aria-label="닫기">
+                📌
+              </button>
             </div>
             <div className="flex flex-col items-center mb-4">
               <div className="flex items-center gap-4 mb-4">
