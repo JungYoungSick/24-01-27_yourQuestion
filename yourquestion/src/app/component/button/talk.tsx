@@ -82,8 +82,14 @@ export const Talk: React.FC = () => {
       </button>{" "}
       {/* 팝업 토글 버튼 */}
       {isPopupOpen && ( // 팝업 상태에 따라 조건부 렌더링
-        <div className="fixed inset-0 bg-black bg-opacity-15 flex justify-end items-start">
-          <div className="bg-white p-4 w-1/2 mt-14 mr-10  h-4/5 rounded-lg shadow-lg max-w-md ">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-15 flex justify-end items-start"
+          onClick={togglePopup}
+        >
+          <div
+            className="bg-white p-4 w-1/2 mt-14 mr-10  h-4/5 rounded-lg shadow-lg max-w-md "
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex justify-end">
               {/* 팝업 닫기 버튼 */}
               <button onClick={togglePopup} className="text-xl">
