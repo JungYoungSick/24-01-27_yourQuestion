@@ -2,7 +2,7 @@
 // src/components/Talk.tsx
 import React, { useState, useEffect } from "react";
 
-type MessageType = "user" | "bot";
+type MessageType = "user" | "admin";
 
 interface Message {
   type: MessageType;
@@ -78,19 +78,45 @@ export const Talk: React.FC = () => {
                 📌
               </button>
             </div>
-            <div>
-              <ul>
-                {messages.map((message, index) => (
-                  <li
-                    key={index}
-                    className={`message ${
-                      message.type === "user" ? "user-message" : "bot-message"
-                    }`}
-                  >
-                    {message.text}
-                  </li>
-                ))}
-              </ul>
+            <div className="flex justify-between">
+              <div className="flex flex-col space-y-4 p-4 bg-white overflow-y-auto">
+                {messages.map((message, index) =>
+                  message.type === "admin" ? (
+                    // Admin 메시지: 왼쪽 정렬
+                    <div key={index} className="flex justify-start">
+                      <div className="bg-gray-200 rounded px-4 py-2 shadow">
+                        {message.text}
+                      </div>
+                    </div>
+                  ) : (
+                    // User 메시지: 오른쪽 정렬
+                    <div key={index} className="flex justify-end">
+                      <div className="bg-pink-500 rounded px-4 py-2 shadow text-white">
+                        {message.text}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="flex flex-col space-y-4 p-4 bg-white overflow-y-auto">
+                {messages.map((message, index) =>
+                  message.type === "user" ? (
+                    // Admin 메시지: 왼쪽 정렬
+                    <div key={index} className="flex justify-start">
+                      <div className="bg-gray-200 rounded px-4 py-2 shadow">
+                        {message.text}
+                      </div>
+                    </div>
+                  ) : (
+                    // User 메시지: 오른쪽 정렬
+                    <div key={index} className="flex justify-end">
+                      <div className="bg-blue-500 rounded px-4 py-2 shadow text-white">
+                        {message.text}
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
