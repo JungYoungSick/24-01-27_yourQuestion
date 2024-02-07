@@ -24,7 +24,11 @@ export const Talk: React.FC = () => {
         throw new Error("Failed to fetch messages");
       }
       const fetchedUserMessages = await response.json();
-      console.log("여기는 유저", fetchedUserMessages);
+      // timestamp를 기준으로 메시지를 오름차순 정렬
+      fetchedUserMessages.sort(
+        (a: Message, b: Message) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      );
       userSetMessages(fetchedUserMessages);
     } catch (error) {
       console.error("Failed to fetch messages:", error);
@@ -37,9 +41,13 @@ export const Talk: React.FC = () => {
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
-      const fetchedMessages = await response.json();
-      adminSetMessages(fetchedMessages);
-      console.log("여기는 어드민", fetchedMessages);
+      const fetchedAdminMessages = await response.json();
+      // timestamp를 기준으로 메시지를 오름차순 정렬
+      fetchedAdminMessages.sort(
+        (a: Message, b: Message) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      );
+      adminSetMessages(fetchedAdminMessages);
     } catch (error) {
       console.error("Failed to fetch messages:", error);
     }
