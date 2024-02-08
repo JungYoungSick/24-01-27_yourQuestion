@@ -1,4 +1,4 @@
-// pages/auth/reset-password.js
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 
@@ -51,10 +51,11 @@ export default function ResetPassword() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/auth/login">
-            <a className="font-medium text-indigo-600 hover:text-indigo-500">
-              로그인 하러 가기
-            </a>
+          <Link
+            href="/login/pwfind"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            로그인 하러 가기
           </Link>
         </div>
       </div>

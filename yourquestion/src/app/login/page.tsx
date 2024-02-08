@@ -47,14 +47,14 @@ export default function Login() {
           <div className="flex justify-between items-center">
             <div>
               <Link
-                href="/find/idfind"
+                href="/login/idfind"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 아이디 찾기
               </Link>
               {" / "}
               <Link
-                href="/find/password"
+                href="/login/pwfind"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 비밀번호 찾기
@@ -62,7 +62,7 @@ export default function Login() {
             </div>
             <div>
               <Link
-                href="/signup"
+                href="/login/signup"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 회원가입

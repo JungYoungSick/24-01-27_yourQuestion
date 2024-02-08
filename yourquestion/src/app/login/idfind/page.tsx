@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 
@@ -50,10 +51,11 @@ export default function FindId() {
           </div>
         </form>
         <div className="text-center">
-          <Link href="/auth/login">
-            <a className="font-medium text-indigo-600 hover:text-indigo-500">
-              로그인 하러 가기
-            </a>
+          <Link
+            href="/login/idfind"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            로그인 하러 가기
           </Link>
         </div>
       </div>

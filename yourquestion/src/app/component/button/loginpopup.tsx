@@ -24,7 +24,11 @@ const LoginPopup: React.FC = () => {
   }, []);
   return (
     <>
-      <button aria-label="로그인" className="..." onClick={handleLoginClick}>
+      <button
+        aria-label="로그인"
+        className="p-2 bg-purple-200 rounded-full"
+        onClick={handleLoginClick}
+      >
         👤
       </button>
       {isPopupOpen && (

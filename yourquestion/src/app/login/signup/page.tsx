@@ -1,4 +1,4 @@
-// pages/auth/register.js
+"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -90,10 +90,11 @@ export default function Register() {
         </form>
         <div className="text-sm text-center">
           이미 계정이 있으신가요?{" "}
-          <Link href="/auth/login">
-            <a className="font-medium text-indigo-600 hover:text-indigo-500">
-              로그인
-            </a>
+          <Link
+            href="/login"
+            className="font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            로그인
           </Link>
         </div>
       </div>
