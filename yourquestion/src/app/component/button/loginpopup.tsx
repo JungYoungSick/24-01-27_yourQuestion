@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 const LoginPopup: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -57,7 +58,7 @@ const LoginPopup: React.FC = () => {
                   고객센터
                 </button>
                 <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                  로그아웃
+                  <Link href="/login">로그인 페이지로</Link>
                 </button>
               </div>
             </div>

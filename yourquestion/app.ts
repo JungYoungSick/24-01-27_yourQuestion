@@ -112,6 +112,17 @@ app.prepare().then(() => {
     }
   });
 
+  // 로그인 페이지 get이동
+  server.get("/login/page", async (req: Request, res: Response) => {
+    try {
+      res.status(200).json();
+      console.log("로그인 페이지 연결 성공");
+    } catch (error) {
+      console.error("로그인 페이지 연결 실패", error);
+      res.status(500).json();
+    }
+  });
+
   // Next.js 라우트 핸들링
   server.all("*", (req: Request, res: Response) => {
     return handle(req, res);
