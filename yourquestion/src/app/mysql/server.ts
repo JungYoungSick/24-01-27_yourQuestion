@@ -18,10 +18,10 @@ const config: DatabaseConfig = {
 async function connectToDatabase(): Promise<Connection | null> {
   try {
     const connection: Connection = await mysql.createConnection(config);
-    console.log("Connected to MariaDB");
+    console.log("MariaDB에 연결되었습니다.");
     return connection;
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("MariaDB 연결에 실패하였습니다.", error);
     return null;
   }
 }
