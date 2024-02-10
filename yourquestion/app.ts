@@ -7,6 +7,7 @@ import {
   adminSaveToMongoDB,
   client,
 } from "./src/app/nosql/server";
+import { connectToMysql } from "./src/app/mysql/server";
 
 const isDev = process.env.NODE_ENV !== "production";
 const app = next({ dev: isDev });
@@ -119,6 +120,44 @@ app.prepare().then(() => {
     } catch (error) {
       console.error("로그인 페이지 연결 실패", error);
       res.status(500).json();
+    }
+  });
+
+  server.post("/mysql/mariadb", async (req: Request, res: Response) => {
+    const connection = await connectToMysql();
+    if (!connection) {
+      res.status(500).json({ message: "MariaDB 연결 실패" });
+      return;
+    }
+
+    const { userName, userID, passWord, userEmail, phoneNumber } = req.body;
+    let { productKey } = req.body;
+    if (!productKey) {
+      productKey = ""; // 적절한 기본값으로 대체하세요.
+    }
+    const query = `
+      INSERT INTO users (productKey, userName, userID, passWord, userEmail, phoneNumber, addDate)
+      VALUES (?, ?, ?, ?, ?, ?, NOW())
+    `;
+
+    try {
+      // 쿼리를 실행하여 데이터베이스에 데이터 삽입 (프로미스 사용)
+      const [result] = await connection
+        .promise()
+        .query(query, [
+          productKey,
+          userName,
+          userID,
+          passWord,
+          userEmail,
+          phoneNumber,
+        ]);
+      // 성공 응답 보내기
+      res.status(200).json({ message: "회원가입 성공", result });
+    } catch (error) {
+      // 에러 처리
+      console.error("회원가입 처리 중 오류 발생:", error);
+      res.status(500).json({ message: "회원가입 처리 중 오류 발생", error });
     }
   });
 

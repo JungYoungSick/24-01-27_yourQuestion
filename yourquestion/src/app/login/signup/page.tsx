@@ -1,26 +1,41 @@
 "use client";
-import React from "react";
+import React, { useState, FormEvent } from "react";
 import Link from "next/link";
 
 export default function Register() {
-  // 회원가입 처리 함수
-  // Register 컴포넌트 내 handleSubmit 함수
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
+  // 폼 데이터 상태 관리
+  const [formData, setFormData] = useState({
+    userName: "",
+    userID: "",
+    passWord: "",
+    userEmail: "",
+    phoneNumber: "",
+  });
 
+  // 입력 필드 변경 처리 함수
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // 폼 제출 처리 함수
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
-      const response = await fetch("/api/register", {
+      const response = await fetch("/mysql/mariadb", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         alert("회원가입 성공!");
+        <Link href="/login"></Link>;
         // 성공적으로 회원가입 처리 후 추가 로직 처리 (예: 로그인 페이지로 리다이렉트)
       } else {
         alert("회원가입 실패");
@@ -46,10 +61,12 @@ export default function Register() {
                 이름
               </label>
               <input
-                id="name"
-                name="name"
+                id="userName"
+                name="userName"
                 type="text"
                 autoComplete="name"
+                value={formData.userName}
+                onChange={handleChange}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mb-1"
                 placeholder="이름"
@@ -60,30 +77,34 @@ export default function Register() {
                 아이디
               </label>
               <input
-                id="idname"
-                name="idname"
+                id="userID"
+                name="userID"
                 type="text"
                 autoComplete="email"
+                value={formData.userID}
+                onChange={handleChange}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-1"
                 placeholder="아이디"
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="passWord" className="sr-only">
                 비밀번호
               </label>
               <input
-                id="password"
-                name="password"
+                id="passWord"
+                name="passWord"
                 type="password"
                 autoComplete="new-password"
+                value={formData.passWord}
+                onChange={handleChange}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-1"
                 placeholder="비밀번호"
               />
             </div>
-            <div>
+            {/* <div>
               <label htmlFor="password-confirm" className="sr-only">
                 비밀번호 확인
               </label>
@@ -96,7 +117,7 @@ export default function Register() {
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-1"
                 placeholder="비밀번호 확인"
               />
-            </div>
+            </div> */}
             <div>
               <label htmlFor="phoneNumber" className="sr-only">
                 전화번호
@@ -106,6 +127,8 @@ export default function Register() {
                 name="phoneNumber"
                 type="tel"
                 autoComplete="new-phone"
+                value={formData.phoneNumber}
+                onChange={handleChange}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-1"
                 placeholder="전화번호"
@@ -116,10 +139,12 @@ export default function Register() {
                 이메일 주소
               </label>
               <input
-                id="email"
-                name="email"
+                id="userEmail"
+                name="userEmail"
                 type="email"
                 autoComplete="email"
+                value={formData.userEmail}
+                onChange={handleChange}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-b-md"
                 placeholder="이메일 주소"
@@ -129,7 +154,6 @@ export default function Register() {
 
           <div>
             <button
-              onClick={handleSubmit}
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
