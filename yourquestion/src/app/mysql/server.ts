@@ -10,12 +10,12 @@ interface DatabaseConfig {
 
 const config: DatabaseConfig = {
   host: "localhost",
-  user: "jung",
+  user: "root",
   password: "1216",
   database: "Dumi",
 };
 
-async function connectToDatabase(): Promise<Connection | null> {
+async function connectToMysql(): Promise<Connection | null> {
   try {
     const connection: Connection = await mysql.createConnection(config);
     console.log("MariaDB에 연결되었습니다.");
@@ -26,4 +26,5 @@ async function connectToDatabase(): Promise<Connection | null> {
   }
 }
 
-export { connectToDatabase };
+connectToMysql();
+export { connectToMysql };
