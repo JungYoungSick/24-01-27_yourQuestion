@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import next from "next";
+import { v4 as uuidv4 } from "uuid"; // uuid 모듈 import
 
 import {
   userSaveToMongoDB,
@@ -131,17 +132,14 @@ app.prepare().then(() => {
     }
 
     const { userName, userID, passWord, userEmail, phoneNumber } = req.body;
-    let { productKey } = req.body;
-    if (!productKey) {
-      productKey = ""; // 적절한 기본값으로 대체하세요.
-    }
+    const productKey = uuidv4(); // UUID 생성하여 productKey에 할당
+
     const query = `
-      INSERT INTO users (productKey, userName, userID, passWord, userEmail, phoneNumber, addDate)
+      INSERT INTO user (productKey, userName, userID, passWord, userEmail, phoneNumber, addDate)
       VALUES (?, ?, ?, ?, ?, ?, NOW())
     `;
 
     try {
-      // 쿼리를 실행하여 데이터베이스에 데이터 삽입 (프로미스 사용)
       const [result] = await connection
         .promise()
         .query(query, [
@@ -152,10 +150,8 @@ app.prepare().then(() => {
           userEmail,
           phoneNumber,
         ]);
-      // 성공 응답 보내기
       res.status(200).json({ message: "회원가입 성공", result });
     } catch (error) {
-      // 에러 처리
       console.error("회원가입 처리 중 오류 발생:", error);
       res.status(500).json({ message: "회원가입 처리 중 오류 발생", error });
     }
