@@ -18,16 +18,28 @@ async function connectToMongoDB(): Promise<void> {
 }
 
 // sequenceNumber를 관리하기 위한 함수
-async function getNextSequenceNumber(collection: Collection): Promise<number> {
+async function getNextSequenceNumber(
+  collection: Collection,
+  userType: string
+): Promise<number> {
   const lastDocument = await collection
     .find({})
     .sort({ sequenceNumber: -1 })
     .limit(1)
     .toArray();
-  if (lastDocument.length === 0) {
-    return 1; // 컬렉션이 비어있으면, sequenceNumber를 1로 시작
+  let nextSequenceNumber = 1; // 기본적으로 1로 시작
+  if (lastDocument.length !== 0) {
+    const lastSequenceNumber = lastDocument[0].sequenceNumber;
+    if (userType === "user" && lastSequenceNumber % 2 === 0) {
+      nextSequenceNumber = lastSequenceNumber + 2; // user의 경우 홀수로 설정
+    } else if (userType === "admin" && lastSequenceNumber % 2 === 1) {
+      nextSequenceNumber = lastSequenceNumber + 2; // admin의 경우 짝수로 설정
+    } else {
+      nextSequenceNumber = lastSequenceNumber + 1; // 다음 시퀸스 넘버 계산
+    }
   }
-  return lastDocument[0].sequenceNumber + 1; // 마지막 문서의 sequenceNumber에 1을 더함
+
+  return nextSequenceNumber;
 }
 
 // user data 사용자 데이터 저장
@@ -35,7 +47,7 @@ async function userSaveToMongoDB(
   data: Record<string, any>
 ): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
   const collection = db.collection(collectionUserName);
-  const sequenceNumber = await getNextSequenceNumber(collection); // sequenceNumber 가져오기
+  const sequenceNumber = await getNextSequenceNumber(collection, "user"); // sequenceNumber 가져오기
   const documentToInsert = {
     ...data,
     sequenceNumber,
@@ -56,7 +68,7 @@ async function adminSaveToMongoDB(
   data: Record<string, any>
 ): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
   const adminCollection = db.collection(collectionAdminName);
-  const sequenceNumber = await getNextSequenceNumber(adminCollection); // sequenceNumber 가져오기
+  const sequenceNumber = await getNextSequenceNumber(adminCollection, "admin"); // sequenceNumber 가져오기
   const documentToInsert = {
     ...data,
     sequenceNumber,
