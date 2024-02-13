@@ -1,11 +1,11 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, Db, Collection } from "mongodb";
 
 const uri: string = "mongodb+srv://jung:1216@cluster0.ufpsr69.mongodb.net/";
 const client: MongoClient = new MongoClient(uri);
 const dbName: string = "prompt";
 const collectionUserName: string = "user";
 const collectionAdminName: string = "admin";
-let documentCount: number = 0;
+const db: Db = client.db(dbName);
 
 // server 시작 시 MongoDB 연결 문구
 async function connectToMongoDB(): Promise<void> {
@@ -17,66 +17,59 @@ async function connectToMongoDB(): Promise<void> {
   }
 }
 
-// user data 사용자 데이터 저장.
-async function userSaveToMongoDB(
-  data: Record<string, any>
-): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
-  try {
-    const db = client.db(dbName);
-    const collection = db.collection(collectionUserName);
-
-    documentCount++;
-    const sequenceNumber = documentCount;
-    const documentToInsert = {
-      ...data,
-      sequenceNumber,
-      receivedAt: new Date(),
-    };
-
-    const result = await collection.insertOne(documentToInsert);
-    console.log(
-      `MongoDB에 사용자 데이터가 저장되었습니다: ${result.insertedId}`
-    );
-
-    return {
-      message: "사용자 데이터 저장 성공",
-      _id: result.insertedId,
-      sequenceNumber,
-    };
-  } catch (error) {
-    console.error("MongoDB에 사용자 데이터 저장 중 오류 발생:", error);
-    throw error;
+// sequenceNumber를 관리하기 위한 함수
+async function getNextSequenceNumber(collection: Collection): Promise<number> {
+  const lastDocument = await collection
+    .find({})
+    .sort({ sequenceNumber: -1 })
+    .limit(1)
+    .toArray();
+  if (lastDocument.length === 0) {
+    return 1; // 컬렉션이 비어있으면, sequenceNumber를 1로 시작
   }
+  return lastDocument[0].sequenceNumber + 1; // 마지막 문서의 sequenceNumber에 1을 더함
 }
 
-// admin data 사용자 데이터 저장.
+// user data 사용자 데이터 저장
+async function userSaveToMongoDB(
+  data: Record<string, any>
+): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
+  const collection = db.collection(collectionUserName);
+  const sequenceNumber = await getNextSequenceNumber(collection); // sequenceNumber 가져오기
+  const documentToInsert = {
+    ...data,
+    sequenceNumber,
+    receivedAt: new Date(),
+  };
+  const result = await collection.insertOne(documentToInsert);
+  console.log(`MongoDB에 사용자 데이터가 저장되었습니다: ${result.insertedId}`);
+
+  return {
+    message: "사용자 데이터 저장 성공",
+    _id: result.insertedId,
+    sequenceNumber,
+  };
+}
+
+// admin data 사용자 데이터 저장
 async function adminSaveToMongoDB(
   data: Record<string, any>
-): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
-  try {
-    const db = client.db(dbName);
-    const adminCollection = db.collection(collectionAdminName);
+): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
+  const adminCollection = db.collection(collectionAdminName);
+  const sequenceNumber = await getNextSequenceNumber(adminCollection); // sequenceNumber 가져오기
+  const documentToInsert = {
+    ...data,
+    sequenceNumber,
+    receivedAt: new Date(),
+  };
+  const result = await adminCollection.insertOne(documentToInsert);
+  console.log(`MongoDB에 유저 데이터가 저장되었습니다: ${result.insertedId}`);
 
-    documentCount++;
-    const sequenceNumber = documentCount;
-    const documentToInsert = {
-      ...data,
-      sequenceNumber,
-      receivedAt: new Date(),
-    };
-
-    const result = await adminCollection.insertOne(documentToInsert);
-    console.log(`MongoDB에 유저 데이터가 저장되었습니다: ${result.insertedId}`);
-
-    return {
-      message: "사용자 데이터 저장 성공",
-      _id: result.insertedId,
-      sequenceNumber,
-    };
-  } catch (error) {
-    console.error("MongoDB에 사용자 데이터 저장 중 오류 발생:", error);
-    throw error;
-  }
+  return {
+    message: "사용자 데이터 저장 성공",
+    _id: result.insertedId,
+    sequenceNumber,
+  };
 }
 // 메인페이지 내에서 admin data 불러오기.
 async function getFromMongoDB(
