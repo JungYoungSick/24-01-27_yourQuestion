@@ -1,27 +1,38 @@
 "use client";
-import React, { useState, FormEvent } from "react";
+// 필요한 타입 정의
+type FormData = {
+  userName: string;
+  userID: string;
+  passWord: string;
+  userEmail: string;
+  phoneNumber: string;
+};
+
+// React와 Next.js의 필요한 훅과 컴포넌트를 import
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
+import Modal from "@app/component/signupModal"; // Modal 컴포넌트의 경로가 올바른지 확인하세요
+import { useRouter } from "next/navigation";
 
 export default function Register() {
-  // 폼 데이터 상태 관리
-  const [formData, setFormData] = useState({
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [formData, setFormData] = useState<FormData>({
     userName: "",
     userID: "",
     passWord: "",
     userEmail: "",
     phoneNumber: "",
   });
+  const router = useRouter();
 
-  // 입력 필드 변경 처리 함수
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
   };
 
-  // 폼 제출 처리 함수
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -34,15 +45,18 @@ export default function Register() {
       });
 
       if (response.ok) {
-        alert("회원가입 성공!");
-        <Link href="/login"></Link>;
-        // 성공적으로 회원가입 처리 후 추가 로직 처리 (예: 로그인 페이지로 리다이렉트)
+        setShowModal(true);
       } else {
         alert("회원가입 실패");
       }
     } catch (error) {
       console.error("회원가입 요청 중 오류 발생:", error);
     }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    router.push("/login");
   };
 
   return (
@@ -161,6 +175,9 @@ export default function Register() {
             </button>
           </div>
         </form>
+        <Modal isOpen={showModal} onClose={handleModalClose}>
+          회원가입이 성공적으로 완료되었습니다!
+        </Modal>
         <div className="text-sm text-center">
           이미 계정이 있으신가요?{" "}
           <Link
