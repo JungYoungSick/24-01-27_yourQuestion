@@ -2,12 +2,12 @@ import { MongoClient } from "mongodb";
 
 const uri: string = "mongodb+srv://jung:1216@cluster0.ufpsr69.mongodb.net/";
 const client: MongoClient = new MongoClient(uri);
-
 const dbName: string = "prompt";
 const collectionUserName: string = "user";
 const collectionAdminName: string = "admin";
 let documentCount: number = 0;
 
+// server 시작 시 MongoDB 연결 문구
 async function connectToMongoDB(): Promise<void> {
   try {
     await client.connect();
@@ -17,6 +17,7 @@ async function connectToMongoDB(): Promise<void> {
   }
 }
 
+// user data 사용자 데이터 저장.
 async function userSaveToMongoDB(
   data: Record<string, any>
 ): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
@@ -48,6 +49,7 @@ async function userSaveToMongoDB(
   }
 }
 
+// admin data 사용자 데이터 저장.
 async function adminSaveToMongoDB(
   data: Record<string, any>
 ): Promise<{ message: string; _id: unknown; sequenceNumber: Number }> {
@@ -76,7 +78,7 @@ async function adminSaveToMongoDB(
     throw error;
   }
 }
-
+// 메인페이지 내에서 admin data 불러오기.
 async function getFromMongoDB(
   query: Record<string, any>
 ): Promise<Array<Record<string, any>>> {
@@ -93,6 +95,7 @@ async function getFromMongoDB(
   }
 }
 
+// MongoDB 연결 시작.
 connectToMongoDB();
 
 export { userSaveToMongoDB, getFromMongoDB, adminSaveToMongoDB, client };

@@ -38,7 +38,7 @@ export const Talk: React.FC = () => {
       console.error("Failed to fetch messages:", error);
     }
   };
-  // 서버에서 메시지 목록을 가져오는 함수
+  // 서버에서 답변자메시지 목록을 가져오는 함수
   const fetchAdminMessages = async () => {
     try {
       const response = await fetch("/talk/admin?message=admin");

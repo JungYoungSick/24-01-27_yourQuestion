@@ -46,7 +46,7 @@ app.prepare().then(() => {
     }
   });
 
-  // 관리자 검색 기능
+  // MongoDB 답변자 데이터 조회 기능
   server.post("/nosql/searchAdmin", async (req: Request, res: Response) => {
     try {
       const keyword = req.body.keyword;
