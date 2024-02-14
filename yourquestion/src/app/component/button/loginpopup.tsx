@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 // 사용자 정보 인터페이스 정의
 interface IUser {
