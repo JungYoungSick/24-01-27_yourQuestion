@@ -87,7 +87,7 @@ export default function Register() {
               />
             </div>
             <div>
-              <label htmlFor="idname" className="sr-only">
+              <label htmlFor="userID" className="sr-only">
                 아이디
               </label>
               <input

@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import next from "next";
 import { v4 as uuidv4 } from "uuid"; // uuid 모듈 import
-
+import * as jwt from "jsonwebtoken";
 import {
   userSaveToMongoDB,
   getFromMongoDB,
@@ -9,6 +9,7 @@ import {
   client,
 } from "./src/app/nosql/server";
 import { connectToMysql } from "./src/app/mysql/server";
+import { RowDataPacket } from "mysql2"; // 필요한 타입 import
 
 const isDev = process.env.NODE_ENV !== "production";
 const app = next({ dev: isDev });
@@ -113,17 +114,45 @@ app.prepare().then(() => {
     }
   });
 
-  // 로그인 페이지 get이동
-  server.get("/login/page", async (req: Request, res: Response) => {
+  //? 로그인 로직
+  server.post("/login", async (req: Request, res: Response) => {
+    const connection = await connectToMysql();
+    if (!connection) {
+      res.status(500).json({ message: "MariaDB 연결 실패" });
+      return;
+    }
+
+    const { userID, passWord } = req.body;
+
+    const query = `SELECT * FROM user WHERE userID = ?`;
     try {
-      res.status(200).json();
-      console.log("로그인 페이지 연결 성공");
+      // 쿼리 결과 타입을 명시적으로 지정
+      const [rows] = await connection
+        .promise()
+        .query<RowDataPacket[]>(query, [userID]);
+      const user = rows[0]; // 첫 번째 사용자 선택
+
+      if (user) {
+        if (user.passWord === passWord) {
+          // 평문 비밀번호 비교, 실제로는 해시 비교를 권장
+          const userPayload = { userID: user.userID };
+          const JWT_SECRET = "Login"; // 실제로는 안전하게 관리되어야 하는 비밀키
+          const token = jwt.sign(userPayload, JWT_SECRET, { expiresIn: "2h" });
+
+          res.status(200).json({ message: "로그인 완료", token });
+        } else {
+          res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
+        }
+      } else {
+        res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+      }
     } catch (error) {
       console.error("로그인 페이지 연결 실패", error);
-      res.status(500).json();
+      res.status(500).json({ message: "로그인 처리 중 오류 발생" });
     }
   });
 
+  //? 회원가입 로직
   server.post("/mysql/mariadb", async (req: Request, res: Response) => {
     const connection = await connectToMysql();
     if (!connection) {
@@ -132,6 +161,7 @@ app.prepare().then(() => {
     }
 
     const { userName, userID, passWord, userEmail, phoneNumber } = req.body;
+
     const productKey = uuidv4(); // UUID 생성하여 productKey에 할당
 
     const query = `
@@ -150,6 +180,7 @@ app.prepare().then(() => {
           userEmail,
           phoneNumber,
         ]);
+
       res.status(200).json({ message: "회원가입 성공", result });
     } catch (error) {
       console.error("회원가입 처리 중 오류 발생:", error);
