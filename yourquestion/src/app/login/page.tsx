@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation"; // useRouter 훅 임포트
 export default function Login() {
   // useState를 사용하여 사용자 입력을 관리합니다.
   const [userID, setUserID] = useState("");
   const [passWord, setPassWord] = useState("");
-
+  const router = useRouter(); // useRouter 훅 사용
   async function loginUser() {
     try {
       const response = await fetch("/login", {
@@ -23,11 +23,10 @@ export default function Login() {
       if (data.token) {
         // 토큰을 로컬 스토리지에 저장
         localStorage.setItem("token", data.token);
-        // 로그인 성공 후의 처리 (예: 페이지 리다이렉션)
+
+        router.push("/");
         console.log("로그인 성공");
         alert("로그인 성공!");
-        // 로그인 성공 후 페이지 리다이렉션
-        // window.location.href = '/home'; // 홈 페이지나 대시보드로 리다이렉션
       } else {
         // 에러 처리
         console.error("로그인 실패");
