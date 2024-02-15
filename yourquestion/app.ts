@@ -135,11 +135,7 @@ app.prepare().then(() => {
       if (user) {
         if (user.passWord === passWord) {
           // 평문 비밀번호 비교, 실제로는 해시 비교를 권장
-          const userPayload = {
-            userID: user.userID,
-            userName: user.userName,
-            userEmail: user.userEmail,
-          };
+          const userPayload = { userID: user.userID };
           const JWT_SECRET = "Login"; // 실제로는 안전하게 관리되어야 하는 비밀키
           const token = jwt.sign(userPayload, JWT_SECRET, { expiresIn: "2h" });
 
