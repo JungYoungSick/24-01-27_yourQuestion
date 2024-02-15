@@ -98,19 +98,30 @@ const LoginPopup: React.FC = () => {
             )}
             <div className="w-56 flex justify-between">
               {isLoggedIn ? (
-                <Link
-                  href="/customer-support"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  고객센터
+                <Link href="/customer-support">
+                  <a className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    고객센터
+                  </a>
                 </Link>
               ) : (
-                <Link
-                  href="/login/signup"
+                // 로그인 상태가 아닐 때 회원가입 링크 클릭 시 confirm 모달 표시
+                <button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  onClick={() => {
+                    const confirmSignUp = window.confirm(
+                      "회원가입 페이지로 이동하시겠습니까?"
+                    );
+                    if (confirmSignUp) {
+                      // '예'를 선택했다면 회원가입 페이지로 이동
+                      router.push("/login/signup");
+                    } else {
+                      // '아니오'를 선택했다면 팝업창을 닫음
+                      setIsPopupOpen(false);
+                    }
+                  }}
                 >
                   회원가입
-                </Link>
+                </button>
               )}
               {isLoggedIn ? (
                 <Link
