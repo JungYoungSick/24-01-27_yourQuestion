@@ -5,32 +5,36 @@ import { jwtDecode } from "jwt-decode";
 
 // 사용자 정보 인터페이스 정의
 interface IUser {
-  name: string;
-  email: string;
-  id: string; // 실제 토큰에 저장된 키 이름에 따라 변경할 수 있습니다.
+  userName: string;
+  userEmail: string;
+  userID: string; // 실제 토큰에 저장된 키 이름에 따라 변경할 수 있습니다.
 }
 
 // 토큰에 포함될 정보 인터페이스 정의
-interface IToken {
-  name: string;
-  email: string;
-  id: string; // 이 부분도 토큰에 저장된 키 이름에 따라 변경해야 할 수 있습니다.
+interface JwtPayload {
+  userName: string;
+  userEmail: string;
+  userID: string; // 이 부분도 토큰에 저장된 키 이름에 따라 변경해야 할 수 있습니다.
   exp: number;
 }
 const LoginPopup: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [user, setUser] = useState<IUser>({ name: "", email: "", id: "" });
+  const [user, setUser] = useState<IUser>({
+    userName: "",
+    userEmail: "",
+    userID: "",
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const decodedToken = jwtDecode<IToken>(token);
+        const decodedToken = jwtDecode<JwtPayload>(token);
         if (decodedToken.exp * 1000 > Date.now()) {
           setUser({
-            name: decodedToken.name,
-            email: decodedToken.email,
-            id: decodedToken.id,
+            userName: decodedToken.userName,
+            userEmail: decodedToken.userEmail,
+            userID: decodedToken.userID,
           });
         }
       } catch (error) {
@@ -87,13 +91,17 @@ const LoginPopup: React.FC = () => {
             <div className="flex flex-col items-center mb-4">
               <div className="flex items-center gap-4 mb-4">
                 <div className="bg-blue-300 w-16 h-16 rounded-full"></div>
-                <span className="text-lg font-semibold">{user.name}</span>{" "}
+                <span className="text-lg font-semibold">
+                  {user.userName}
+                </span>{" "}
                 {/* 닉네임 부분에 이름 표시 */}
               </div>
               <div className="flex flex-col justify-start">
-                <div className="text-sm">아이디: {user.id}</div>{" "}
+                <div className="text-sm">아이디: {user.userID}</div>{" "}
                 {/* 아이디 부분에 아이디 표시 */}
-                <div className="text-sm mb-4">이메일: {user.email}</div>{" "}
+                <div className="text-sm mb-4">
+                  이메일: {user.userEmail}
+                </div>{" "}
                 {/* 이메일 부분에 이메일 표시 */}
               </div>
               <div className="w-56 flex justify-between">

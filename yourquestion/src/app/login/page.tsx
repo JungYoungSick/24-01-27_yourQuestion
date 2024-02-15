@@ -18,11 +18,11 @@ export default function Login() {
         body: JSON.stringify({ userID, passWord }),
       });
 
-      const data = await response.json();
+      const token = await response.json();
 
-      if (data.token) {
+      if (response.ok) {
         // 토큰을 로컬 스토리지에 저장
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", JSON.stringify(token));
 
         router.push("/");
         console.log("로그인 성공");
