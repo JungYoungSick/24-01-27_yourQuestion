@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
 // 사용자 정보 인터페이스 정의
 interface IUser {
@@ -24,7 +25,7 @@ const LoginPopup: React.FC = () => {
     userEmail: "",
     userID: "",
   });
-
+  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -42,6 +43,12 @@ const LoginPopup: React.FC = () => {
       }
     }
   }, []);
+
+  // 로그아웃 핸들러 함수
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // 로컬 스토리지에서 토큰 제거
+    router.push("/"); // 메인 페이지로 리다이렉트
+  };
 
   const handleLoginClick = () => {
     setIsPopupOpen(true);
@@ -108,9 +115,21 @@ const LoginPopup: React.FC = () => {
                 <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                   고객센터
                 </button>
-                <button className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                  <Link href="/login">로그인 페이지로</Link>
-                </button>
+                {localStorage.getItem("token") ? (
+                  <button
+                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    onClick={handleLogout} // 로그아웃 핸들러 함수 호출
+                  >
+                    로그아웃하기
+                  </button>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                  >
+                    로그인 페이지로
+                  </Link>
+                )}
               </div>
             </div>
           </div>
