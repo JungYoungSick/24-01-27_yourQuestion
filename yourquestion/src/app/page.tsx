@@ -7,7 +7,7 @@ import Talk from "./component/button/talk";
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(""); // user 컬렉션 데이터를 저장할 상태
   const [adminData, setAdminData] = useState<string>(""); // admin 컬렉션 데이터를 저장할 상태
-
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const saveUserInput = async (input: string | number) => {
     try {
       await fetch("/nosql/mongodb/user", {
@@ -65,14 +65,22 @@ const MainPage: React.FC = () => {
   };
 
   const handleUserInput = async () => {
-    await handleSubmit(); // 기존의 데이터 전송 로직을 유지합니다.
+    const token = localStorage.getItem("token");
+
+    // 토큰이 없다면 LoginPopup 팝업을 표시합니다.
+    if (!token) {
+      setIsPopupOpen(true); // 팝업을 여는 상태로 설정합니다.
+      return; // 여기서 함수를 종료하여 더 이상 진행하지 않습니다.
+    }
+
+    // 토큰이 있다면 (즉, 로그인 상태라면) 데이터 전송 로직을 실행합니다.
+    await handleSubmit();
   };
 
   // 입력창의 값이 변경될 때마다 실행되는 함수입니다.
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value); // 입력값 상태를 업데이트합니다.
   };
-
   return (
     <div className="flex flex-col h-screen bg-pink-100">
       <header className="flex justify-between p-4">
@@ -101,6 +109,7 @@ const MainPage: React.FC = () => {
       {/* Footer section */}
       <footer className="p-4 bg-gray-200">
         {/* 프롬프트 입력창 */}
+        <LoginPopup showButton={false} isOpen={isPopupOpen} />
         <div className="flex items-center">
           <input
             type="text"

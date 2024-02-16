@@ -18,7 +18,15 @@ interface JwtPayload {
   exp: number;
 }
 
-const LoginPopup: React.FC = () => {
+interface LoginPopupProps {
+  showButton?: boolean;
+  isOpen?: boolean; // 추가된 prop
+}
+
+const LoginPopup: React.FC<LoginPopupProps> = ({
+  showButton = true,
+  isOpen,
+}) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [user, setUser] = useState<IUser>({
     userName: "",
@@ -46,6 +54,12 @@ const LoginPopup: React.FC = () => {
       }
     }
   }, []);
+  useEffect(() => {
+    // isOpen prop이 변경될 때마다 팝업 상태 설정
+    if (isOpen !== undefined) {
+      setIsPopupOpen(isOpen);
+    }
+  }, [isOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -64,13 +78,15 @@ const LoginPopup: React.FC = () => {
 
   return (
     <>
-      <button
-        aria-label="로그인"
-        className="p-2 bg-purple-200 rounded-full"
-        onClick={handleLoginClick}
-      >
-        👤
-      </button>
+      {showButton && (
+        <button
+          aria-label="로그인"
+          className="p-2 bg-purple-200 rounded-full"
+          onClick={handleLoginClick}
+        >
+          👤
+        </button>
+      )}
       {isPopupOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-15 flex justify-start items-center"
