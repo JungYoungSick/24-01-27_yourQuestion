@@ -70,7 +70,7 @@ const MainPage: React.FC = () => {
     // 토큰이 없다면 LoginPopup 팝업을 표시합니다.
     if (!token) {
       setIsPopupOpen(true); // 팝업을 여는 상태로 설정합니다.
-      return; // 여기서 함수를 종료하여 더 이상 진행하지 않습니다.
+      return;
     }
 
     // 토큰이 있다면 (즉, 로그인 상태라면) 데이터 전송 로직을 실행합니다.
@@ -109,7 +109,11 @@ const MainPage: React.FC = () => {
       {/* Footer section */}
       <footer className="p-4 bg-gray-200">
         {/* 프롬프트 입력창 */}
-        <LoginPopup showButton={false} isOpen={isPopupOpen} />
+        <LoginPopup
+          showButton={false}
+          isOpen={isPopupOpen}
+          onClose={() => setIsPopupOpen(false)}
+        />
         <div className="flex items-center">
           <input
             type="text"

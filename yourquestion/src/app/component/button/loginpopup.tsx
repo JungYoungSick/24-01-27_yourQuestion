@@ -21,11 +21,13 @@ interface JwtPayload {
 interface LoginPopupProps {
   showButton?: boolean;
   isOpen?: boolean; // 추가된 prop
+  onClose?: () => void;
 }
 
 const LoginPopup: React.FC<LoginPopupProps> = ({
   showButton = true,
   isOpen,
+  onClose,
 }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [user, setUser] = useState<IUser>({
@@ -74,6 +76,9 @@ const LoginPopup: React.FC<LoginPopupProps> = ({
 
   const handleCloseClick = () => {
     setIsPopupOpen(false);
+    if (onClose) {
+      onClose(); // 부모 컴포넌트에게 팝업이 닫힘을 알림
+    }
   };
 
   return (
