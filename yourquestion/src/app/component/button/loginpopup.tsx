@@ -98,10 +98,11 @@ const LoginPopup: React.FC = () => {
             )}
             <div className="w-56 flex justify-between">
               {isLoggedIn ? (
-                <Link href="/customer-support">
-                  <a className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                    고객센터
-                  </a>
+                <Link
+                  href="/customer-support"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  고객센터
                 </Link>
               ) : (
                 // 로그인 상태가 아닐 때 회원가입 링크 클릭 시 confirm 모달 표시
