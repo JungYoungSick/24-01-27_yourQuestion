@@ -80,6 +80,7 @@ app.prepare().then(() => {
     }
   });
 
+  // mariaDB user 메세지 데이터 연결 조회 요청
   server.get("/talk/user", async (req: Request, res: Response) => {
     try {
       const dbName = "prompt";
@@ -96,7 +97,7 @@ app.prepare().then(() => {
         .json({ message: "Failed to fetch messages", error: toString() });
     }
   });
-
+  // mariaDB admin 메세지 데이터 연결 조회 요청
   server.get("/talk/admin", async (req: Request, res: Response) => {
     try {
       const dbName = "prompt";
@@ -114,7 +115,7 @@ app.prepare().then(() => {
     }
   });
 
-  //? 로그인 로직
+  // mariaDB 로그인 요청 로직
   server.post("/login", async (req: Request, res: Response) => {
     const connection = await connectToMysql();
     if (!connection) {
@@ -156,7 +157,7 @@ app.prepare().then(() => {
     }
   });
 
-  //? 회원가입 로직
+  // mariaDB 회원가입 요청 로직
   server.post("/mysql/mariadb", async (req: Request, res: Response) => {
     const connection = await connectToMysql();
     if (!connection) {
