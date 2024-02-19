@@ -197,9 +197,9 @@ app.prepare().then(() => {
     let connection;
     try {
       connection = await connectToMysql();
-      console.log("연결 성공");
+      console.log("MariaDB 타이틀 전송 성공");
       if (!connection) {
-        res.status(500).json({ message: "MariaDB 타이틀 전송 연결 실패" });
+        res.status(500).json({ message: "MariaDB 타이틀 전송 실패" });
         return;
       }
 
