@@ -1,39 +1,31 @@
 import { useState } from "react";
 import AdminTalkPlus from "./newTalkTogle/adminTalkPlus";
-
-// NewTalk에서 사용할 Popup 컴포넌트를 정의합니다.
-const Popup = ({
-  isOpen,
-  children,
-  onClose,
-}: {
-  isOpen: boolean;
-  children: React.ReactNode;
-  onClose: () => void;
-}) =>
-  isOpen && (
-    <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-48 bg-white p-4 rounded-lg shadow-md">
-      <div className="text-center mb-2">{children}</div>
-      <button
-        onClick={onClose}
-        className="block w-full p-2 bg-gray-200 rounded-full"
-      >
-        Close
-      </button>
-    </div>
-  );
+import NewHeader from "./newTalkTogle/newHeader";
 
 const NewTalk = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // 토글 팝업 상태 관리
   const [isAdminTalkPlusOpen, setIsAdminTalkPlusOpen] = useState(false);
+  const [isNewHeaderOpen, setIsNewHeaderOpen] = useState(false);
 
   const handleToggle = () => {
-    setIsPopupOpen((prevState) => !prevState);
+    setIsPopupOpen(!isPopupOpen); // 토글 상태 토글
+    // 팝업을 닫을 때 AdminTalkPlus와 NewHeader도 닫히도록 설정
+    if (isPopupOpen) {
+      setIsAdminTalkPlusOpen(false);
+      setIsNewHeaderOpen(false);
+    }
   };
 
-  const openAdminTalkPlus = () => {
+  const handleAdminTalkPlusOpen = () => {
     setIsAdminTalkPlusOpen(true);
-    setIsPopupOpen(false); // AdminTalkPlus를 열 때 NewTalk 팝업을 닫습니다.
+    setIsNewHeaderOpen(false);
+    setIsPopupOpen(false); // AdminTalkPlus를 열 때 토글 팝업 닫기
+  };
+
+  const handleNewHeaderOpen = () => {
+    setIsAdminTalkPlusOpen(false);
+    setIsNewHeaderOpen(true);
+    setIsPopupOpen(false); // NewHeader를 열 때 토글 팝업 닫기
   };
 
   return (
@@ -41,16 +33,33 @@ const NewTalk = () => {
       <button onClick={handleToggle} className="p-2 bg-green-200 rounded-full">
         +
       </button>
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
-        <div
-          onClick={openAdminTalkPlus}
-          className="cursor-pointer bg-slate-300 m-3"
-        >
-          답변자 기록 추가
+
+      {isPopupOpen && (
+        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-48 bg-white p-4 rounded-lg shadow-md">
+          <div
+            className="text-center mb-2 cursor-pointer"
+            onClick={handleAdminTalkPlusOpen}
+          >
+            답변자 기록 추가
+          </div>
+          <div
+            className="text-center mb-2 cursor-pointer"
+            onClick={handleNewHeaderOpen}
+          >
+            새로운 대화 생성
+          </div>
         </div>
-      </Popup>
+      )}
+
       {isAdminTalkPlusOpen && (
         <AdminTalkPlus onClose={() => setIsAdminTalkPlusOpen(false)} />
+      )}
+
+      {isNewHeaderOpen && (
+        <NewHeader
+          isOpen={isNewHeaderOpen}
+          onClose={() => setIsNewHeaderOpen(false)}
+        />
       )}
     </div>
   );
