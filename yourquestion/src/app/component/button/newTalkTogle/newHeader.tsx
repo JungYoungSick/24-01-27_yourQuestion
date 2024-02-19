@@ -26,7 +26,7 @@ const NewHeader = ({
           onClick={handleHeaderAction}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          헤더 동작
+          제목 추가
         </button>
         <button
           onClick={onClose}
