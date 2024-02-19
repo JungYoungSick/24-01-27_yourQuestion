@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import LoginPopup from "./component/button/loginpopup";
+import NewTalk from "./component/button/newtalk";
 import TalkList from "./component/button/talklist";
 import Talk from "./component/button/talk";
 
@@ -90,7 +91,7 @@ const MainPage: React.FC = () => {
         </div>
         <div className="flex space-x-2">
           {/* 1시 방향 UI (추가, 달력, 채팅 버튼) */}
-          <button className="p-2 bg-green-200 rounded-full">+</button>
+          <NewTalk />
           <TalkList />
           <Talk />
         </div>
