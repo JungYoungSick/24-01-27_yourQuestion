@@ -1,10 +1,12 @@
 import { MongoClient, Db, Collection } from "mongodb";
+import AdminTalkPlus from "../component/button/newTalkTogle/adminTalkPlus";
 
 const uri: string = "mongodb+srv://jung:1216@cluster0.ufpsr69.mongodb.net/";
 const client: MongoClient = new MongoClient(uri);
 const dbName: string = "prompt";
 const collectionUserName: string = "user";
 const collectionAdminName: string = "admin";
+const collectionAdminSaveData: string = "adminSaveData";
 const db: Db = client.db(dbName);
 
 // server 시작 시 MongoDB 연결 문구
@@ -99,8 +101,36 @@ async function getFromMongoDB(
     throw error;
   }
 }
+// Next.js API 라우트 핸들러
+// 데이터를 저장하는 함수
+async function AdminSavaData(
+  data: Record<string, any>
+): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
+  const collection = db.collection(collectionAdminSaveData);
+  const sequenceNumber = await getNextSequenceNumber(
+    collection,
+    "adminSaveData"
+  );
+  const adminSave = {
+    ...data,
+    sequenceNumber,
+    receivedAt: new Date(),
+  };
 
+  const result = await collection.insertOne(adminSave);
+  return {
+    message: "답변자 데이터 저장 성공",
+    _id: result.insertedId,
+    sequenceNumber,
+  };
+}
 // MongoDB 연결 시작.
 connectToMongoDB();
 
-export { userSaveToMongoDB, getFromMongoDB, adminSaveToMongoDB, client };
+export {
+  userSaveToMongoDB,
+  getFromMongoDB,
+  adminSaveToMongoDB,
+  AdminSavaData,
+  client,
+};

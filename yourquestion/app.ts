@@ -6,6 +6,7 @@ import {
   userSaveToMongoDB,
   getFromMongoDB,
   adminSaveToMongoDB,
+  AdminSavaData,
   client,
 } from "./src/app/nosql/server";
 import { connectToMysql } from "./src/app/mysql/server";
@@ -218,8 +219,25 @@ app.prepare().then(() => {
       res.status(500).send({ success: false, message: "Error adding title" });
     }
   });
-  server.use("/newTalk/newHeader/tatle", connectToMysql);
-
+  server.post(
+    "/newTalk/adminTalkPlus/admin",
+    async (req: Request, res: Response) => {
+      try {
+        const { data } = req.body;
+        const result = await AdminSavaData(data);
+        res.status(200).json({
+          message: "Admin data saved successfully",
+          data: result,
+        });
+      } catch (error) {
+        console.error("Error saving admin data:", error);
+        res.status(500).json({
+          message: "Error saving admin data",
+          error,
+        });
+      }
+    }
+  );
   // Next.js 라우트 핸들링
   server.all("*", (req: Request, res: Response) => {
     return handle(req, res);

@@ -1,12 +1,38 @@
 // AdminTalkPlus.tsx
 import React, { useState } from "react";
 
-const AdminTalkPlus = ({ onClose }: { onClose: () => void }) => {
-  const [inputValue, setInputValue] = useState("");
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+const AdminTalkPlus: React.FC<Props> = ({ isOpen, onClose }) => {
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const addDataToMongoDB = async (data: string) => {
+    try {
+      const response = await fetch("/newTalk/adminTalkPlus/admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Data successfully saved:", result);
+      setInputValue(""); // Clear the input field
+      onClose(); // Close the popup
+    } catch (error) {
+      console.error("Failed to save data:", error);
+    }
+  };
   const handleAddClick = () => {
-    // 여기에 데이터베이스에 데이터를 추가하는 로직을 구현합니다.
-    console.log("Added to database:", inputValue);
+    addDataToMongoDB(inputValue);
   };
 
   return (
