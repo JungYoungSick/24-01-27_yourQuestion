@@ -223,7 +223,7 @@ app.prepare().then(() => {
     "/newTalk/adminTalkPlus/admin",
     async (req: Request, res: Response) => {
       try {
-        const { data } = req.body;
+        const data = req.body;
         const result = await AdminSavaData(data);
         res.status(200).json({
           message: "Admin data saved successfully",

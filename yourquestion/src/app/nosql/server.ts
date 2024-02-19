@@ -101,7 +101,6 @@ async function getFromMongoDB(
     throw error;
   }
 }
-// Next.js API 라우트 핸들러
 // 데이터를 저장하는 함수
 async function AdminSavaData(
   data: Record<string, any>
@@ -118,6 +117,7 @@ async function AdminSavaData(
   };
 
   const result = await collection.insertOne(adminSave);
+  console.log("저장 전 data 객체:", data);
   return {
     message: "답변자 데이터 저장 성공",
     _id: result.insertedId,
