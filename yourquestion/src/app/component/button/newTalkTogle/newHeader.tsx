@@ -24,15 +24,12 @@ const NewHeader = ({
       });
 
       if (!response.ok) {
-        console.log("1번");
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log("2번");
       setTitle("");
       onClose();
     } catch (error) {
-      console.log("3번");
       console.error("Failed to add title:", error);
     }
   };
