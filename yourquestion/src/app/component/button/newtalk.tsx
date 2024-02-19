@@ -1,9 +1,19 @@
 import { useState } from "react";
+import AdminTalkPlus from "./newTalkTogle/adminTalkPlus";
 
-const Popup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
+// NewTalk에서 사용할 Popup 컴포넌트를 정의합니다.
+const Popup = ({
+  isOpen,
+  children,
+  onClose,
+}: {
+  isOpen: boolean;
+  children: React.ReactNode;
+  onClose: () => void;
+}) =>
   isOpen && (
     <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-48 bg-white p-4 rounded-lg shadow-md">
-      <div className="text-center mb-2">The toggle is on!</div>
+      <div className="text-center mb-2">{children}</div>
       <button
         onClick={onClose}
         className="block w-full p-2 bg-gray-200 rounded-full"
@@ -15,19 +25,15 @@ const Popup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
 
 const NewTalk = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAdminTalkPlusOpen, setIsAdminTalkPlusOpen] = useState(false);
 
-  const handleToggle = async () => {
-    // 비동기 작업을 수행할 함수 호출
-    if (!isPopupOpen) {
-      await performAsyncAction(); // 비동기 작업 수행
-    }
-    setIsPopupOpen((prevState) => !prevState); // 팝업 상태 토글
+  const handleToggle = () => {
+    setIsPopupOpen((prevState) => !prevState);
   };
 
-  // 비동기 작업을 수행할 함수
-  const performAsyncAction = async () => {
-    // 비동기 작업 수행 (예: API 호출 등)
-    console.log("Async action performed!");
+  const openAdminTalkPlus = () => {
+    setIsAdminTalkPlusOpen(true);
+    setIsPopupOpen(false); // AdminTalkPlus를 열 때 NewTalk 팝업을 닫습니다.
   };
 
   return (
@@ -35,7 +41,17 @@ const NewTalk = () => {
       <button onClick={handleToggle} className="p-2 bg-green-200 rounded-full">
         +
       </button>
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+        <div
+          onClick={openAdminTalkPlus}
+          className="cursor-pointer bg-slate-300 m-3"
+        >
+          답변자 기록 추가
+        </div>
+      </Popup>
+      {isAdminTalkPlusOpen && (
+        <AdminTalkPlus onClose={() => setIsAdminTalkPlusOpen(false)} />
+      )}
     </div>
   );
 };
