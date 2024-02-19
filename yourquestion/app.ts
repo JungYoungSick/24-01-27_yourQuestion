@@ -193,6 +193,33 @@ app.prepare().then(() => {
     }
   });
 
+  server.post("/newTalk/newHeader/title", async (req, res) => {
+    let connection;
+    try {
+      connection = await connectToMysql();
+      console.log("연결 성공");
+      if (!connection) {
+        res.status(500).json({ message: "MariaDB 타이틀 전송 연결 실패" });
+        return;
+      }
+
+      const { userID, title } = req.body;
+      const query = "INSERT INTO talkdata (userID, title) VALUES (?, ?)";
+      const [result] = await connection.promise().query(query, [userID, title]);
+
+      res.json({
+        success: true,
+        message: "Title added successfully",
+        result,
+        Id: title,
+      });
+    } catch (err) {
+      console.error("Error adding title:", err);
+      res.status(500).send({ success: false, message: "Error adding title" });
+    }
+  });
+  server.use("/newTalk/newHeader/tatle", connectToMysql);
+
   // Next.js 라우트 핸들링
   server.all("*", (req: Request, res: Response) => {
     return handle(req, res);
