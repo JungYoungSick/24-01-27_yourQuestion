@@ -238,6 +238,28 @@ app.prepare().then(() => {
       }
     }
   );
+  server.get("/title/talkdata", async (req: Request, res: Response) => {
+    const connection = await connectToMysql();
+    if (!connection) {
+      res.status(500).json({ message: "MariaDB 연결 실패" });
+      return;
+    }
+
+    try {
+      const query = "SELECT id, title FROM talkdata";
+      const [titles] = await connection.promise().query(query);
+      res.status(200).json(titles);
+    } catch (error) {
+      console.error("Title 데이터 조회 실패", error);
+      res
+        .status(500)
+        .json({ message: "Title 데이터 조회 중 오류 발생", error });
+    } finally {
+      if (connection) {
+        connection.end(); // 연결 종료
+      }
+    }
+  });
   // Next.js 라우트 핸들링
   server.all("*", (req: Request, res: Response) => {
     return handle(req, res);

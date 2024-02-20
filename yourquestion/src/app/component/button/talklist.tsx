@@ -1,8 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Link from "next/link";
+import Talk from "./talk";
 
+interface Talk {
+  id: string;
+  title: string;
+  // ...기타 필드들이 있을 수 있음...
+}
 export const TalkList: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [talkData, setTalkData] = useState<Talk[]>([]);
+
+  useEffect(() => {
+    const fetchTalkData = async () => {
+      try {
+        const response = await axios.get("/title/talkdata");
+        setTalkData(response.data);
+      } catch (error) {
+        console.error("talkdata를 불러오는데 실패했습니다.", error);
+      }
+    };
+
+    fetchTalkData();
+  }, []);
 
   const handleListOpenClick = () => {
     setIsPopupOpen(true);
@@ -56,31 +78,9 @@ export const TalkList: React.FC = () => {
               </button>
             </div>
             <ul>
-              {items.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex justify-between items-center my-2 p-2 bg-gray-100"
-                >
-                  <span>{item.title}</span>
-                  {/* 위치 변경, 삭제, 고정 버튼 */}
-                  <div className="flex space-x-2">
-                    <button onClick={() => handleMove(item.id, "up")}>↑</button>
-                    <button onClick={() => handleMove(item.id, "down")}>
-                      ↓
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="text-red-500"
-                    >
-                      🗑️
-                    </button>
-                    <button
-                      onClick={() => handlePin(item.id)}
-                      className="text-green-500"
-                    >
-                      {item.fixed ? "📌" : "📍"}
-                    </button>
-                  </div>
+              {talkData.map((data) => (
+                <li key={data.id}>
+                  <Link href={`/talk/${data.id}`}>{data.title}</Link>
                 </li>
               ))}
             </ul>
