@@ -260,6 +260,28 @@ app.prepare().then(() => {
       }
     }
   });
+
+  server.get("/api/lastTitle", (req: Request, res: Response) => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, "Login") as jwt.JwtPayload;
+        const userID = decoded.userID;
+
+        // userID를 기반으로 데이터베이스에서 사용자의 마지막 대화 타이틀을 조회
+        // 여기서는 조회 로직을 가정합니다.
+        const lastTitle = "사용자의 마지막 대화 타이틀";
+
+        res.json({ title: lastTitle });
+      } catch (error) {
+        res.status(401).send("Invalid token");
+      }
+    } else {
+      res.status(401).send("No token provided");
+    }
+  });
   // Next.js 라우트 핸들링
   server.all("*", (req: Request, res: Response) => {
     return handle(req, res);

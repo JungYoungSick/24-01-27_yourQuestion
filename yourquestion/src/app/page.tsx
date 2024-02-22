@@ -4,6 +4,7 @@ import LoginPopup from "./component/button/loginpopup";
 import NewTalk from "./component/button/newtalk";
 import TalkList from "./component/button/talklist";
 import Talk from "./component/button/talk";
+import TitleDisplay from "./component/button/titleDisplay";
 
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(""); // user 컬렉션 데이터를 저장할 상태
@@ -98,13 +99,21 @@ const MainPage: React.FC = () => {
       </header>
 
       {/* Main content */}
-      <main className="flex-grow p-4">
-        {/* 말풍선 */}
-        <div className="p-4 bg-white rounded-lg shadow max-w-sm mx-auto text-black">
+      <main className="flex-grow p-4 flex justify-between ">
+        <div className="flex flex-col items-end ml-4">
+          {" "}
+          {/* 여기서 ml-4는 왼쪽 마진을 추가하여 두 div 사이의 간격을 조정합니다. */}
+          {/* TitleDisplay 컴포넌트 */}
+          <TitleDisplay />
+          {/* 캐릭터 이미지 (임시로 텍스트로 대체) */}
+          <div className="text-black my-4">캐릭터 이미지</div>
+        </div>
+        {/* 데이터를 표시하는 div */}
+        <div className="w-2/3 h-5/6 p-4 bg-white rounded-lg shadow text-black">
           {adminData} {/* admin 컬렉션으로부터 조회된 데이터를 표시합니다. */}
         </div>
-        {/* 캐릭터 이미지 (임시로 텍스트로 대체) */}
-        <div className="mx-auto my-4 text-black">캐릭터 이미지</div>
+
+        {/* TitleDisplay 컴포넌트와 캐릭터 이미지를 포함하는 div */}
       </main>
 
       {/* Footer section */}
@@ -115,7 +124,7 @@ const MainPage: React.FC = () => {
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
         />
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <input
             type="text"
             placeholder="문구 입력..."
