@@ -34,8 +34,12 @@ const NewHeader = ({
 
     // 토큰에서 userID 추출
     const decodedToken = decodeJwt(token);
-    console.log("Decoded Token:", decodedToken); // 디코딩된 토큰 전체를 콘솔에 출력
+    const userID = decodedToken ? decodedToken.userID : null;
     console.log("UserID:", decodedToken.userID); // 토큰에서 추출한 userID를 콘솔에 출력
+    if (!userID) {
+      console.error("유효한 userID가 토큰에 없습니다.");
+      return;
+    }
     try {
       const response = await fetch("/newTalk/newHeader/title", {
         method: "POST",
@@ -45,7 +49,7 @@ const NewHeader = ({
           Authorization: "Bearer your-token-here",
         },
 
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title, userID }),
       });
 
       if (!response.ok) {
