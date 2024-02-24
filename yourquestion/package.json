@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node app.ts",
+    "dev": "ts-node Server/Src/app.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

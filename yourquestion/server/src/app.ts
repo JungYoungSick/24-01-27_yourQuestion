@@ -8,8 +8,8 @@ import {
   adminSaveToMongoDB,
   AdminSavaData,
   client,
-} from "./src/app/nosql/server";
-import { connectToMysql } from "./src/app/mysql/server";
+} from "../../Server/Src/db/nosql/server";
+import { connectToMysql } from "../../Server/Src/db/mysql/server";
 import { RowDataPacket } from "mysql2"; // 필요한 타입 import
 
 const isDev = process.env.NODE_ENV !== "production";
