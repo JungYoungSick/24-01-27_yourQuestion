@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection } from "mongodb";
-import AdminTalkPlus from "../component/button/newTalkTogle/adminTalkPlus";
+// import AdminTalkPlus from "../../../../Component/Src/Atoms/button/newTalkTogle/adminTalkPlus";
 
 const uri: string = "mongodb+srv://jung:1216@cluster0.ufpsr69.mongodb.net/";
 const client: MongoClient = new MongoClient(uri);

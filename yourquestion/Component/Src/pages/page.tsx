@@ -1,7 +1,7 @@
 // 위치: src/Component/Src/Pages/page.tsx
 
 import React, { useState } from "react";
-import Header from "../Organisms/Header/Header";
+import Header from "../Organisms/Header/header";
 import Main from "../Organisms/Main/main";
 import Footer from "../Organisms/Footer/footer";
 
