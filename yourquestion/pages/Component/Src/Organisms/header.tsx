@@ -1,10 +1,8 @@
-// 위치: src/Component/Src/Organisms/Header/header.tsx
-
 import React from "react";
-import LoginPopup from "../../Atoms/button/loginpopup";
-import NewTalk from "../../Atoms/button/newtalk";
-import TalkList from "../../Atoms/button/talklist";
-import Talk from "../../Atoms/button/talk";
+import LoginPopup from "../Atoms/button/loginpopup";
+import NewTalk from "../Atoms/button/newtalk";
+import TalkList from "../Atoms/button/talklist";
+import Talk from "../Atoms/button/talk";
 
 const Header: React.FC = () => {
   return (

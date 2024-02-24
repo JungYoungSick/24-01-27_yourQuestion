@@ -1,9 +1,8 @@
-// 위치: src/Component/Src/Pages/page.tsx
-
+import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
-import Header from "../Organisms/Header/header";
-import Main from "../Organisms/Main/main";
-import Footer from "../Organisms/Footer/footer";
+import Header from "./Component/Src/Organisms/header";
+import Main from "./Component/Src/Organisms/main";
+import Footer from "./Component/Src/Organisms/footer";
 
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");

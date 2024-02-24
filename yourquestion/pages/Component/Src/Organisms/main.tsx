@@ -1,7 +1,5 @@
-// 위치: src/Component/Src/Organisms/Main/Main.tsx
-
 import React from "react";
-import TitleDisplay from "../../Atoms/button/titleDisplay";
+import TitleDisplay from "../Atoms/button/titleDisplay";
 
 interface MainProps {
   adminData: string;

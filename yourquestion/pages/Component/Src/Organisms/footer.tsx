@@ -1,7 +1,5 @@
-// 위치: src/Component/Src/Organisms/Footer/Footer.tsx
-
 import React from "react";
-import LoginPopup from "../../Atoms/button/loginpopup";
+import LoginPopup from "../Atoms/button/loginpopup";
 
 interface FooterProps {
   inputValue: string;
