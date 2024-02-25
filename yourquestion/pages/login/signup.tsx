@@ -11,7 +11,7 @@ type FormData = {
 // React와 Next.js의 필요한 훅과 컴포넌트를 import
 import React, { useState, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
-import Modal from "@app/component/signupModal"; // Modal 컴포넌트의 경로가 올바른지 확인하세요
+import Modal from "../login/signup/signupModal";
 import { useRouter } from "next/navigation";
 
 export default function Register() {

@@ -1,4 +1,3 @@
-import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import Header from "./Component/Src/Organisms/header";
 import Main from "./Component/Src/Organisms/main";
