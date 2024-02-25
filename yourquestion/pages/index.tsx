@@ -5,8 +5,8 @@ import Footer from "./Component/Src/Organisms/footer";
 import { saveUserInput as saveUserInputUtil } from "../Server/Src/utils/mainPage/saveUserInput";
 import { handleSubmit as handleSubmitUtil } from "../Server/Src/utils/mainPage/handleSubmit";
 import { saveSearchResultToAdmin } from "../Server/Src/utils/mainPage/saveSearchResultToAdmin";
-import { handleUserInput as handleUserInputUtil } from "../Server/Src/utils/mainPage/handleUserInput";
-import { handleInputChange as handleInputChangeUtil } from "../Server/Src/utils/mainPage/handleInputChange";
+import { handleUserInput as handleUserInputUtil } from "./Component/Src/Molecules/handleUserInput";
+import { handleInputChange as handleInputChangeUtil } from "./Component/Src/Molecules/handleInputChange";
 
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
