@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Header from "./Component/Src/Organisms/header";
 import Main from "./Component/Src/Organisms/main";
 import Footer from "./Component/Src/Organisms/footer";
-import { saveUserInput as saveUserInputUtil } from "../Server/Src/utils/saveUserInput";
-import { handleSubmit as handleSubmitUtil } from "../Server/Src/utils/handleSubmit";
-import { saveSearchResultToAdmin } from "../Server/Src/utils/saveSearchResultToAdmin";
-import { handleUserInput as handleUserInputUtil } from "../Server/Src/utils/handleUserInput";
-import { handleInputChange as handleInputChangeUtil } from "../Server/Src/utils/handleInputChange";
+import { saveUserInput as saveUserInputUtil } from "../Server/Src/utils/mainPage/saveUserInput";
+import { handleSubmit as handleSubmitUtil } from "../Server/Src/utils/mainPage/handleSubmit";
+import { saveSearchResultToAdmin } from "../Server/Src/utils/mainPage/saveSearchResultToAdmin";
+import { handleUserInput as handleUserInputUtil } from "../Server/Src/utils/mainPage/handleUserInput";
+import { handleInputChange as handleInputChangeUtil } from "../Server/Src/utils/mainPage/handleInputChange";
 
 const MainPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>("");
