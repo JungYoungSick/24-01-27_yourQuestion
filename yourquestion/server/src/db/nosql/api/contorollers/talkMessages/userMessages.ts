@@ -1,10 +1,11 @@
+// 사용자 메시지 가져오기
 import { Request, Response } from "express";
 import { client } from "../../../server";
 
-export const getAdminMessages = async (req: Request, res: Response) => {
+export const getUserMessages = async (req: Request, res: Response) => {
   try {
     const dbName = "prompt";
-    const collectionName = "admin";
+    const collectionName = "user";
     await client.connect();
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
