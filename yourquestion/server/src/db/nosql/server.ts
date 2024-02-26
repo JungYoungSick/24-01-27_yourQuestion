@@ -124,6 +124,7 @@ async function AdminSavaData(
     sequenceNumber,
   };
 }
+
 // MongoDB 연결 시작.
 connectToMongoDB();
 
