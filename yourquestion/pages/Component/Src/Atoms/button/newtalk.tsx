@@ -68,7 +68,10 @@ const NewTalk = () => {
       )}
 
       {isAdminTalkPlusOpen && (
-        <AdminTalkPlus onClose={() => setIsAdminTalkPlusOpen(false)} />
+        <AdminTalkPlus
+          isOpen={isAdminTalkPlusOpen}
+          onClose={() => setIsAdminTalkPlusOpen(false)}
+        />
       )}
 
       {isNewHeaderOpen && (
