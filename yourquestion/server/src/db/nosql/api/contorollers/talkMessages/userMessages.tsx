@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { client } from "../../db/nosql/server";
+import { client } from "../../../server";
 
 export const getUserMessages = async (req: Request, res: Response) => {
   try {
