@@ -1,5 +1,4 @@
-// server.ts
-import mysql, { Connection } from "mysql2";
+import { createConnection } from "mysql2/promise";
 
 interface DatabaseConfig {
   host: string;
@@ -8,6 +7,7 @@ interface DatabaseConfig {
   database: string;
 }
 
+// 데이터베이스 연결 설정
 const config: DatabaseConfig = {
   host: "localhost",
   user: "root",
@@ -15,16 +15,18 @@ const config: DatabaseConfig = {
   database: "Dumi",
 };
 
-async function connectToMysql(): Promise<Connection | null> {
+// MariaDB 연결 함수
+async function connectToMysql() {
   try {
-    const connection: Connection = await mysql.createConnection(config);
+    // createConnection 함수를 사용하여 MariaDB에 연결
+    const connection = await createConnection(config);
     console.log("MariaDB에 연결되었습니다.");
     return connection;
   } catch (error) {
-    console.error("MariaDB 연결에 실패하였습니다.", error);
-    return null;
+    console.error("MariaDB 연결에 실패하였습니다:", error);
+    // 연결 실패 시 에러를 던져 호출측에서 처리할 수 있도록 함
+    throw error;
   }
 }
 
-connectToMysql();
 export { connectToMysql };

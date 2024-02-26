@@ -22,7 +22,6 @@ export async function connectMongoDB(): Promise<Db> {
 
     // 지정된 데이터베이스 선택
     const db: Db = client.db(dbName);
-    console.log(`데이터베이스 '${dbName}'가 준비되었습니다.`);
 
     // 데이터베이스 객체 반환
     return db;

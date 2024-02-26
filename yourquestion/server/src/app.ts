@@ -1,12 +1,7 @@
 import express from "express";
 import next from "next";
 
-import {
-  loginUser,
-  registerUser,
-  addNewTitle,
-  getTitleTalkData,
-} from "./db/mysql/mariadb";
+import { mariaControllers } from "./db/mysql/mariadb";
 import { connectToMysql } from "./db/mysql/server";
 
 import { connectMongoDB } from "./db/nosql/server";
@@ -28,14 +23,14 @@ app.prepare().then(() => {
   server.get("/nosql/mongodb", mongoControllers.getUserData);
   server.post("/nosql/searchAdmin", mongoControllers.searchAdminData);
   server.post("/nosql/mongodb/admin", mongoControllers.saveAdminData);
-  server.post("/newTalk/newHeader/title", addNewTitle);
   server.post("/newTalk/adminTalkPlus/admin", mongoControllers.adminTalkPlus);
   server.get("/talk/user", mongoControllers.getUserMessages);
   server.get("/talk/admin", mongoControllers.getAdminMessages);
 
-  server.post("/login", loginUser);
-  server.post("/mysql/mariadb", registerUser);
-  server.get("/title/talkdata", getTitleTalkData);
+  server.post("/newTalk/newHeader/title", mariaControllers.addNewTitle);
+  server.post("/login", mariaControllers.loginUser);
+  server.post("/mysql/mariadb", mariaControllers.registerUser);
+  server.get("/title/talkdata", mariaControllers.getTitleTalkData);
 
   server.all("*", (req, res) => handle(req, res));
 
