@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { client } from "../../db/nosql/server"; // MongoDB client를 import합니다. 실제 경로에 맞게 수정하세요.
+import { client } from "../../../server";
+
 export const getAdminMessages = async (req: Request, res: Response) => {
   try {
     const dbName = "prompt";

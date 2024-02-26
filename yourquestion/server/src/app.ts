@@ -16,8 +16,8 @@ import {
   adminTalkPlus,
 } from "./db/nosql/mongodb";
 
-import { getUserMessages } from "./utils/talkMessages/userMessages";
-import { getAdminMessages } from "./utils/talkMessages/adminMessages";
+import { getUserMessages } from "./db/nosql/api/contorollers/talkMessages/userMessages";
+import { getAdminMessages } from "./db/nosql/api/contorollers/talkMessages/adminMessages";
 
 const isDev = process.env.NODE_ENV !== "production";
 const app = next({ dev: isDev });
