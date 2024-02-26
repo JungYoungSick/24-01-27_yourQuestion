@@ -1,7 +1,7 @@
-// api/controllers/mongo/adminTalkPlus.ts
+// 관리자 대화 저장 (adminTalkPlus)
 
 import { Request, Response } from "express";
-import { AdminSavaData } from "../contorollers/AdminSaveData";
+import { AdminSavaData } from "./AdminSaveData";
 
 export const adminTalkPlus = async (
   req: Request,

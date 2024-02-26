@@ -1,7 +1,7 @@
-// api/controllers/mongo/searchAdminData.ts
+// ## 관리자 데이터 검색
 
 import { Request, Response } from "express";
-import { searchAdminCollection } from "../searchAdminCollection"; // 가정
+import { searchAdminCollection } from "./searchAdminCollection";
 
 export const searchAdminData = async (
   req: Request,

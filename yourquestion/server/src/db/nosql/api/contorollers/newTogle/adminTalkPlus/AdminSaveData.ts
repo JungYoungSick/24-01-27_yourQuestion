@@ -1,7 +1,7 @@
 // 관리자 데이터 추가 방식의 저장
 
-import { client } from "../../server";
-import { getNextSequenceNumber } from "./talk/getNextSquenceNumber";
+import { client } from "../../../../server";
+import { getNextSequenceNumber } from "../../talk/getNextSquenceNumber";
 import { Db, Collection } from "mongodb";
 
 const dbName: string = "prompt";

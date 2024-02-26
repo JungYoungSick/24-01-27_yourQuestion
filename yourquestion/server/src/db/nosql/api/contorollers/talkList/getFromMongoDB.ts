@@ -1,10 +1,10 @@
 // MongoDB에서 데이터 가져오기
 
-import { client } from "../../server";
+import { client } from "../../../server";
 import { Db, Collection } from "mongodb";
 
 const dbName: string = "prompt";
-const collectionName: string = "admin"; // 관리자 데이터를 불러올 컬렉션
+const collectionName: string = "admin";
 
 export async function getFromMongoDB(
   query: Record<string, any>

@@ -1,4 +1,4 @@
-// api/controllers/mongo/saveAdminData.ts
+// 관리자 데이터 저장 (saveAdminData)
 
 import { Request, Response } from "express";
 import { adminSaveToMongoDB } from "../contorollers/talk/adminSaveToMongoDB";

@@ -1,4 +1,4 @@
-// api/controllers/mongo/saveUserData.ts
+// 사용자 데이터 저장 (saveUserData)
 
 import { Request, Response } from "express";
 import { userSaveToMongoDB } from "../contorollers/talk/userSaveToMongoDB";

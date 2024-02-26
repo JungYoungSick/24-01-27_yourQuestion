@@ -1,7 +1,7 @@
-// api/controllers/mongo/getUserData.ts
+// 사용자 데이터 조회 (getUserData)
 
 import { Request, Response } from "express";
-import { getFromMongoDB } from "../contorollers/getFromMongoDB";
+import { getFromMongoDB } from "./getFromMongoDB";
 
 export const getUserData = async (
   req: Request,

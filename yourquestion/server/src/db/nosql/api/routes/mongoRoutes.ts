@@ -1,15 +1,13 @@
-// mongoServer.ts
-
+// MongoDB routes
 import { MongoClient } from "mongodb";
 import { Express } from "express";
 import { userSaveToMongoDB } from "../contorollers/talk/userSaveToMongoDB";
-import { getFromMongoDB } from "../contorollers/getFromMongoDB";
+import { getFromMongoDB } from "../contorollers/talkList/getFromMongoDB";
 import { adminSaveToMongoDB } from "../contorollers/talk/adminSaveToMongoDB";
-import { AdminSavaData } from "../contorollers/AdminSaveData";
+import { AdminSavaData } from "../contorollers/newTogle/adminTalkPlus/AdminSaveData";
 
 const uri: string = "your_mongodb_connection_uri";
 const client: MongoClient = new MongoClient(uri);
-const dbName: string = "prompt";
 
 export async function connectToMongoDB(): Promise<void> {
   try {
