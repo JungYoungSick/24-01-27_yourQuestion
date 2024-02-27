@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import AdminTalkPlus from "./newTalkTogle/adminTalkPlus";
 import NewHeader from "./newTalkTogle/newHeader";
+import useOutsideClick from "../../api/hook/useOutsideClick";
 
 const NewTalk = () => {
   const [isAdminTalkPlusOpen, setIsAdminTalkPlusOpen] = useState(false);
   const [isNewHeaderOpen, setIsNewHeaderOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  // useRef에 대한 타입을 HTMLDivElement | null로 명시적으로 선언합니다.
   const popupRef = useRef<HTMLDivElement | null>(null);
 
   const handleToggle = () => {
@@ -25,21 +25,7 @@ const NewTalk = () => {
     setIsPopupOpen(false);
   };
 
-  useEffect(() => {
-    // 'event' 매개 변수의 타입을 MouseEvent로 명시합니다.
-    const handleClickOutside = (event: MouseEvent) => {
-      // 'event.target'을 'Node'로 타입 단언합니다.
-      const target = event.target as Node;
-      if (popupRef.current && !popupRef.current.contains(target)) {
-        setIsPopupOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useOutsideClick(popupRef, () => setIsPopupOpen(false));
 
   return (
     <div className="relative">
@@ -73,7 +59,6 @@ const NewTalk = () => {
           onClose={() => setIsAdminTalkPlusOpen(false)}
         />
       )}
-
       {isNewHeaderOpen && (
         <NewHeader
           isOpen={isNewHeaderOpen}
