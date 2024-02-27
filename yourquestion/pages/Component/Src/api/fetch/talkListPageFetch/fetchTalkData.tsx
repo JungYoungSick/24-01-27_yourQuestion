@@ -1,6 +1,6 @@
 // 토크 데이터 가져오기 (fetchTalkData)
 import axios from "axios";
-import { Talk } from "../../interface/talk";
+import { Talk } from "../../../interface/talk";
 
 export const fetchTalkData = async (): Promise<Talk[]> => {
   try {

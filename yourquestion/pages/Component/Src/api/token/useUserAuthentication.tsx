@@ -23,7 +23,7 @@ const useUserAuthentication = () => {
     }
   }, []);
 
-  return { isLoggedIn, user };
+  return { isLoggedIn, user, setIsLoggedIn };
 };
 
 export default useUserAuthentication;

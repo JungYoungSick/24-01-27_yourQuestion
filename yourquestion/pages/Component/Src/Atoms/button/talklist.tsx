@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { fetchTalkData } from "../../api/controller/fetchTalkData";
+import { fetchTalkData } from "../../api/fetch/talkListPageFetch/fetchTalkData";
 import { Talk } from "../../interface/talk";
 
 export const TalkList: React.FC = () => {

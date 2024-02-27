@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Header from "./Component/Src/Organisms/header";
 import Main from "./Component/Src/Organisms/main";
 import Footer from "./Component/Src/Organisms/footer";
-import { saveUserInput as saveUserInputUtil } from "./Component/Src/Molecules/mainPageFetch/saveUserInput";
-import { handleSubmit as handleSubmitUtil } from "./Component/Src/Molecules/mainPageFetch/handleSubmit";
-import { saveSearchResultToAdmin } from "./Component/Src/Molecules/mainPageFetch/saveSearchResultToAdmin";
+import { saveUserInput as saveUserInputUtil } from "./Component/Src/api/fetch/mainPageFetch/saveUserInput";
+import { handleSubmit as handleSubmitUtil } from "./Component/Src/api/fetch/mainPageFetch/handleSubmit";
+import { saveSearchResultToAdmin } from "./Component/Src/api/fetch/mainPageFetch/saveSearchResultToAdmin";
 import { handleUserInput as handleUserInputUtil } from "./Component/Src/Molecules/handleUserInput";
 import { handleInputChange as handleInputChangeUtil } from "./Component/Src/Molecules/handleInputChange";
 
