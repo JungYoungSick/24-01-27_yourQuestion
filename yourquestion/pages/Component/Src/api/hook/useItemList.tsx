@@ -1,3 +1,4 @@
+// 아이템 목록 관리 커스텀 Hook (useItemList)
 import { useState } from "react";
 
 interface Item {

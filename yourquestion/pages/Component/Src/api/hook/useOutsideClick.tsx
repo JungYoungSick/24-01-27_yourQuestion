@@ -1,3 +1,4 @@
+// 외부 클릭 감지 커스텀 Hook (useOutsideClick)
 import { RefObject, useEffect } from "react";
 
 const useOutsideClick = (ref: RefObject<HTMLElement>, callback: () => void) => {

@@ -1,3 +1,5 @@
+// 사용자 로그인 상태 관리 커스텀 Hook (useLoginStatus)
+
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { IUser, JwtPayload } from "../../interface/login";
