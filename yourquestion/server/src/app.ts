@@ -31,6 +31,7 @@ app.prepare().then(() => {
   server.post("/login", mariaControllers.loginUser);
   server.post("/mysql/mariadb", mariaControllers.registerUser);
   server.get("/title/talkdata", mariaControllers.getTitleTalkData);
+  server.get("/talkData/:userID", mariaControllers.getTitlesByUserID);
 
   server.all("*", (req, res) => handle(req, res));
 
