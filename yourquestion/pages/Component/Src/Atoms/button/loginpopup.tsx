@@ -1,67 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
-
-// 사용자 정보 인터페이스 정의
-interface IUser {
-  userName: string;
-  userEmail: string;
-  userID: string;
-}
-
-// 토큰에 포함될 정보 인터페이스 정의
-interface JwtPayload {
-  userName: string;
-  userEmail: string;
-  userID: string;
-  exp: number;
-}
-
-interface LoginPopupProps {
-  showButton?: boolean;
-  isOpen?: boolean; // 추가된 prop
-  onClose?: () => void;
-}
+import { useRouter } from "next/router";
+import useUserAuthentication from "../../api/token/useUserAuthentication";
+import { LoginPopupProps } from "../../interface/login";
+import useLoginStatus from "../../api/hook/useLiginStatus";
 
 const LoginPopup: React.FC<LoginPopupProps> = ({
   showButton = true,
   isOpen,
   onClose,
 }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [user, setUser] = useState<IUser>({
-    userName: "",
-    userEmail: "",
-    userID: "",
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(isOpen || false);
+  const { isLoggedIn, user, setIsLoggedIn } = useLoginStatus();
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token); // 로그인 상태를 설정합니다.
-    if (token) {
-      try {
-        const decodedToken = jwtDecode<JwtPayload>(token);
-        if (decodedToken.exp * 1000 > Date.now()) {
-          setUser({
-            userName: decodedToken.userName,
-            userEmail: decodedToken.userEmail,
-            userID: decodedToken.userID,
-          });
-        }
-      } catch (error) {
-        console.error("토큰 디코드 실패", error);
-      }
-    }
-  }, []);
-  useEffect(() => {
-    // isOpen prop이 변경될 때마다 팝업 상태 설정
-    if (isOpen !== undefined) {
-      setIsPopupOpen(isOpen);
-    }
-  }, [isOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
