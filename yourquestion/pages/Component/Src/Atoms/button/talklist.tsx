@@ -47,9 +47,9 @@ export const TalkList: React.FC = () => {
               </button>
             </div>
             <ul>
-              {talkData.map((data) => (
-                <li key={data.id}>
-                  <Link href={`/talk/${data.id}`}>{data.title}</Link>
+              {talkData.map((data, index) => (
+                <li key={index}>
+                  <Link href={`/talk/${index}`}>{data.title}</Link>
                 </li>
               ))}
             </ul>
@@ -58,7 +58,7 @@ export const TalkList: React.FC = () => {
               {Array.isArray(talkData) &&
                 talkData.map((data) => (
                   <li key={data.id}>
-                    <Link href={`/talk/${data.id}`}>{data.titles}</Link>
+                    <Link href={`/talk/${data.id}`}>{data.title}</Link>
                   </li>
                 ))}
             </ul> */}
