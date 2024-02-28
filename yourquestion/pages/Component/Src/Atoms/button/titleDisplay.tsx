@@ -2,7 +2,7 @@
 import React from "react";
 
 interface TitleDisplayProps {
-  title?: string;
+  title: string;
 }
 
 const TitleDisplay: React.FC<TitleDisplayProps> = ({ title }) => {

@@ -8,7 +8,11 @@ import { saveSearchResultToAdmin } from "./Component/Src/api/fetch/mainPageFetch
 import { handleUserInput as handleUserInputUtil } from "./Component/Src/Molecules/handleUserInput";
 import { handleInputChange as handleInputChangeUtil } from "./Component/Src/Molecules/handleInputChange";
 
-const MainPage: React.FC = () => {
+export interface MainPageProps {
+  title: string;
+}
+
+const MainPage: React.FC<MainPageProps> = ({ title }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [adminData, setAdminData] = useState<string>("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -35,7 +39,7 @@ const MainPage: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-pink-100">
       <Header />
-      <Main adminData={adminData} />
+      <Main adminData={adminData} title={title} />
       <Footer
         inputValue={inputValue}
         handleInputChange={customHandleInputChange}
