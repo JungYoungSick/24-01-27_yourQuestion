@@ -49,7 +49,7 @@ export const TalkList: React.FC = () => {
             <ul>
               {talkData.map((data, index) => (
                 <li key={index}>
-                  <Link href={`/talk/${index}`}>{data.title}</Link>
+                  <Link href={`/talk/${data.title}`}>{data.title}</Link>
                 </li>
               ))}
             </ul>

@@ -10,7 +10,7 @@ const TalkPage: React.FC = () => {
 
   useEffect(() => {
     const fetchTitle = async () => {
-      setTitle(`Fetched title for ID ${id}`);
+      setTitle(`${id}`);
     };
 
     if (id) {
