@@ -10,11 +10,18 @@ const AdminTalkPlus: React.FC<Props> = ({ isOpen, onClose }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
   const addDataToMongoDB = async (data: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     try {
       const response = await fetch("/newTalk/adminTalkPlus/admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ data }),
       });
