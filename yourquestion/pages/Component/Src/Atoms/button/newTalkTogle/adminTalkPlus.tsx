@@ -21,7 +21,7 @@ const AdminTalkPlus: React.FC<Props> = ({ isOpen, onClose }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${encodeURIComponent(token)}`,
         },
         body: JSON.stringify({ data }),
       });
