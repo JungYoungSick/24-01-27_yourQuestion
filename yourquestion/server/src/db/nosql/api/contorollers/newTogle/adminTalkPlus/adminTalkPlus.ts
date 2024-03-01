@@ -9,7 +9,20 @@ export const adminTalkPlus = async (
 ): Promise<void> => {
   try {
     const data = req.body;
-    const result = await AdminSavaData(data);
+    const encodedToken = req.headers.authorization?.split(" ")[1];
+    if (!encodedToken) {
+      res.status(401).json({ message: "토큰이 제공되지 않았습니다." });
+      return;
+    }
+
+    // URL 디코딩
+    const decodedTokenString = decodeURIComponent(encodedToken);
+    // JSON 파싱
+    const tokenObj = JSON.parse(decodedTokenString);
+    // 실제 토큰 추출
+    const token = tokenObj.token;
+
+    const result = await AdminSavaData(token, data);
     res.status(200).json({
       message: "Admin data saved successfully",
       data: result,

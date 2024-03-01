@@ -3,14 +3,24 @@
 import { client } from "../../../../server";
 import { getNextSequenceNumber } from "../../talk/getNextSquenceNumber";
 import { Db, Collection } from "mongodb";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const dbName: string = "prompt";
-const collectionName: string = "adminSaveData"; // 데이터를 저장할 컬렉션
+const collectionName: string = "adminSaveData";
 
 export async function AdminSavaData(
+  token: string,
   data: Record<string, any>
 ): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
   try {
+    console.log("Received token:", token);
+    const decoded = jwt.decode(token);
+    if (typeof decoded !== "object" || decoded === null) {
+      throw new Error("Invalid token: Unable to decode");
+    }
+    const userID = decoded["userID"];
+    console.log(userID);
+
     const db: Db = client.db(dbName);
     const collection: Collection = db.collection(collectionName);
     const sequenceNumber: number = await getNextSequenceNumber(
@@ -20,6 +30,7 @@ export async function AdminSavaData(
 
     const adminSave = {
       ...data,
+      userID,
       sequenceNumber,
       receivedAt: new Date(),
     };
