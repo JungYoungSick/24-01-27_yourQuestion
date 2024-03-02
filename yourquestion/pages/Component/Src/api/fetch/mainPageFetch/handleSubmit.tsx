@@ -1,4 +1,5 @@
-// utils/handleSubmit.ts
+// 코드는 사용자의 입력을 처리하고 관리자 데이터를 조회하여 관리자 데이터를 설정하고, 검색 결과를 admin 컬렉션에 저장하고, 사용자 입력 데이터를 저장하는 함수인 handleSubmit입니다.
+
 export const handleSubmit = async (
   inputValue: string,
   setAdminData: React.Dispatch<React.SetStateAction<string>>,

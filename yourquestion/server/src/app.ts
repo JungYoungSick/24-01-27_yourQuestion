@@ -1,3 +1,6 @@
+// Express 서버를 설정하고 여러 종류의 데이터베이스와 연결된 컨트롤러를 사용하여 다양한 엔드포인트를 설정
+//이 코드는 다양한 데이터베이스와 연결되어 있는 경우에도 모든 요청을 효율적으로 처리하고 있습니다.
+
 import express from "express";
 import next from "next";
 

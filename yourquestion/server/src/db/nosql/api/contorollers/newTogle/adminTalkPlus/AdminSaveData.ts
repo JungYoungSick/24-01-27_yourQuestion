@@ -1,4 +1,5 @@
 // 관리자 데이터 추가 방식의 저장
+// 이 함수는 주어진 토큰을 사용하여 관리자가 제공한 데이터를 데이터베이스에 저장하는 데 사용됩니다. 데이터베이스와 컬렉션 이름은 코드 내에서 하드코딩되어 있으며, getNextSequenceNumber 함수를 통해 새로운 문서의 시퀀스 번호를 생성하고, JWT를 사용하여 사용자 ID를 추출합니다.
 
 import { client } from "../../../../server";
 import { getNextSequenceNumber } from "../../talk/getNextSquenceNumber";

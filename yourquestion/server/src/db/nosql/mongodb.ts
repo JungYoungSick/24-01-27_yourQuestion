@@ -1,4 +1,5 @@
 // ## MongoDB 연결 및 라우터 설정
+// 이렇게 하면 모든 MongoDB 관련 함수를 단일한 객체로 관리할 수 있습니다. 이러한 모듈화된 접근 방식은 코드의 가독성을 높이고 유지보수를 용이하게 만듭니다. 이제 mongoControllers 객체를 사용하여 다른 파일에서 MongoDB 함수들을 쉽게 가져와 사용할 수 있습니다.
 
 // 사용자 데이터 저장 함수
 import { saveUserData as userSave } from "../nosql/api/contorollers/saveUserData";

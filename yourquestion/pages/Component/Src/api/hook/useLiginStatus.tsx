@@ -1,4 +1,5 @@
 // 사용자 로그인 상태 관리 커스텀 Hook (useLoginStatus)
+// 이렇게 작성된 useLoginStatus 훅을 사용하면 컴포넌트에서 로그인 상태를 쉽게 관리할 수 있습니다
 
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";

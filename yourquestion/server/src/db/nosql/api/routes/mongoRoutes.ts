@@ -1,4 +1,6 @@
 // MongoDB routes
+// 이 코드는 Express 애플리케이션에서 MongoDB와 관련된 라우트를 설정하고, MongoDB에 연결하는 함수를 정의합니다. 설정된 라우트는 각각의 요청에 따라 적절한 MongoDB 함수를 호출하여 데이터를 처리합니다.
+
 import { MongoClient } from "mongodb";
 import { Express } from "express";
 import { userSaveToMongoDB } from "../contorollers/talk/userSaveToMongoDB";

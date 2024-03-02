@@ -1,4 +1,5 @@
 // TalkPage 사용자 데이터 MongoDB 저장
+// 이 함수는 주어진 데이터를 MongoDB에 저장하고, 삽입된 문서의 ID 및 시퀀스 번호를 반환합니다.
 
 import { client } from "../../../server";
 import { getNextSequenceNumber } from "./getNextSquenceNumber";

@@ -1,4 +1,4 @@
-// utils/saveUserInput.ts
+// 코드는 사용자 입력을 저장하는 함수인 saveUserInput입니다. 이 함수는 입력된 텍스트를 서버에 전송하여 MongoDB에 저장합니다.
 export const saveUserInput = async (input: string): Promise<void> => {
   try {
     const response = await fetch("/nosql/mongodb/user", {

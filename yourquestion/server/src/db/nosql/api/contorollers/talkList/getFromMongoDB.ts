@@ -1,4 +1,5 @@
 // MongoDB에서 데이터 가져오기
+// 이 함수는 주어진 쿼리에 따라 MongoDB에서 데이터를 검색하고, 검색 결과를 배열로 반환합니다. 만약 오류가 발생하면 적절한 오류 처리를 수행합니다.
 
 import { client } from "../../../server";
 import { Db, Collection } from "mongodb";
