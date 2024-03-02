@@ -10,12 +10,25 @@ export const saveUserData = async (
 ): Promise<void> => {
   try {
     const data = req.body;
-    const saveResult = await userSaveToMongoDB(data);
+    const encodedToken = req.headers.authorization?.split(" ")[1];
+
+    if (!encodedToken) {
+      res.status(401).json({ message: "토큰이 제공되지 않았습니다." });
+      return;
+    }
+    // URL 디코딩
+    const decodedTokenString = decodeURIComponent(encodedToken);
+    // JSON 파싱
+    const tokenObj = JSON.parse(decodedTokenString);
+    // 실제 토큰 추출
+    const token = tokenObj.token;
+
+    const saveResult = await userSaveToMongoDB(data, token);
     res.status(200).json(saveResult);
   } catch (error) {
-    console.error("MongoDB에 데이터 저장 중 오류 발생:", error);
+    console.error("MongoDB에 user데이터 저장 중 에러 발생:", error);
     res
       .status(500)
-      .json({ message: "MongoDB에 데이터 저장 중 오류 발생", error });
+      .json({ message: "MongoDB에 user데이터 저장 중 500 오류 발생", error });
   }
 };
