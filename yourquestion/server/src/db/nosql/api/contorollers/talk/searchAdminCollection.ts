@@ -6,7 +6,7 @@ export async function searchAdminCollection(
   keyword: string
 ): Promise<Array<Record<string, any>>> {
   const db = client.db("prompt");
-  const collection = db.collection("admin");
+  const collection = db.collection("adminSaveData");
 
   try {
     const query = keyword ? { text: { $regex: keyword, $options: "i" } } : {};
