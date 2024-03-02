@@ -10,7 +10,35 @@ export const saveAdminData = async (
 ): Promise<void> => {
   try {
     const data = req.body;
-    const saveResult = await adminSaveToMongoDB(data);
+    const encodedToken = req.headers.authorization?.split(" ")[1];
+    console.log("Authorization Header:", req.headers.authorization);
+    if (!encodedToken) {
+      res.status(401).json({ message: "토큰이 제공되지 않았습니다." });
+      return;
+    }
+
+    // URL 디코딩
+    const decodedTokenString = decodeURIComponent(encodedToken);
+    // JSON 파싱
+    const tokenObj = JSON.parse(decodedTokenString);
+    // 실제 토큰 추출
+    const token = tokenObj.token;
+    // 디코딩된 토큰 문자열을 출력합니다.
+    console.log("Decoded Token String:", decodedTokenString);
+
+    // JSON으로 파싱된 토큰 객체를 출력합니다.
+    console.log("Parsed Token Object:", tokenObj);
+
+    // 실제 사용되는 토큰 값을 출력합니다.
+    console.log("Extracted Token:", token);
+
+    // 클라이언트로부터 받은 데이터를 출력합니다.
+    console.log("Received data from client:", data);
+
+    const saveResult = await adminSaveToMongoDB(data, token);
+    // 저장 결과를 출력합니다.
+    console.log("Save Result:", saveResult);
+
     res.status(200).json(saveResult);
   } catch (error) {
     console.error("Error saving data to admin collection:", error);

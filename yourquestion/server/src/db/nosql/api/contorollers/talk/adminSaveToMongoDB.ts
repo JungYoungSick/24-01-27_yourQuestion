@@ -3,16 +3,24 @@
 
 import { client } from "../../../server";
 import { getNextSequenceNumber } from "./getNextSquenceNumber";
-
+import jwt from "jsonwebtoken";
 export async function adminSaveToMongoDB(
-  data: Record<string, any>
+  data: Record<string, any>,
+  token: string
 ): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
+  const decoded = jwt.decode(token) as { userID: string; [key: string]: any };
+  if (!decoded || !decoded.userID) {
+    throw new Error("Invalid token: Unable to decode");
+  }
+  const userID = decoded.userID;
+
   const db = client.db("prompt");
   const adminCollection = db.collection("admin");
   const sequenceNumber = await getNextSequenceNumber("admin", "admin");
 
   const documentToInsert = {
     ...data,
+    userID,
     sequenceNumber,
     receivedAt: new Date(),
   };
