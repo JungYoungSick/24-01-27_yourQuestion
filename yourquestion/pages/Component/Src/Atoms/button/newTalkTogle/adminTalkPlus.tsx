@@ -8,7 +8,7 @@ interface Props {
 const AdminTalkPlus: React.FC<Props> = ({ isOpen, onClose }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
-  const addDataToMongoDB = async (data: string) => {
+  const addDataToMongoDB = async (text: string) => {
     const token = localStorage.getItem("token");
     if (!token) {
       alert("로그인이 필요합니다.");
@@ -22,7 +22,7 @@ const AdminTalkPlus: React.FC<Props> = ({ isOpen, onClose }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${encodeURIComponent(token)}`,
         },
-        body: JSON.stringify({ data }),
+        body: JSON.stringify({ text }),
       });
 
       if (!response.ok) {

@@ -24,7 +24,7 @@ app.prepare().then(() => {
 
   server.post("/nosql/mongodb/user", mongoControllers.saveUserData);
   server.get("/nosql/mongodb", mongoControllers.getUserData);
-  server.post("/nosql/searchAdmin", mongoControllers.searchAdminData);
+  server.post("/nosql/searchAdminSaveData", mongoControllers.searchAdminData);
   server.post("/nosql/mongodb/admin", mongoControllers.saveAdminData);
   server.post("/newTalk/adminTalkPlus/admin", mongoControllers.adminTalkPlus);
   server.get("/talk/user", mongoControllers.getUserMessages);

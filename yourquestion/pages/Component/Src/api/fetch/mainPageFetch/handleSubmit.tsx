@@ -7,7 +7,7 @@ export const handleSubmit = async (
   saveUserInput: (input: string) => Promise<void>
 ): Promise<void> => {
   try {
-    const response = await fetch("/nosql/searchAdmin", {
+    const response = await fetch("/nosql/searchAdminSaveData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
