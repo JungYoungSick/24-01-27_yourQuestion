@@ -29,6 +29,7 @@ app.prepare().then(() => {
   server.post("/newTalk/adminTalkPlus/admin", mongoControllers.adminTalkPlus);
   server.get("/talk/user", mongoControllers.getUserMessages);
   server.get("/talk/admin", mongoControllers.getAdminMessages);
+  server.post("/saveAdminData", mongoControllers.saveAdminData);
 
   server.post("/newTalk/newHeader/title", mariaControllers.addNewTitle);
   server.post("/login", mariaControllers.loginUser);

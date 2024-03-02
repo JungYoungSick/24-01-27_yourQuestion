@@ -9,6 +9,7 @@ export const saveAdminData = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { title } = req.body;
     const data = req.body;
     const encodedToken = req.headers.authorization?.split(" ")[1];
 
@@ -24,7 +25,7 @@ export const saveAdminData = async (
     // 실제 토큰 추출
     const token = tokenObj.token;
 
-    const saveResult = await adminSaveToMongoDB(data, token);
+    const saveResult = await adminSaveToMongoDB(data, token, title);
 
     res.status(200).json(saveResult);
   } catch (error) {

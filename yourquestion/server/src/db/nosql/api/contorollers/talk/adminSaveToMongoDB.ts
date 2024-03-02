@@ -4,9 +4,11 @@
 import { client } from "../../../server";
 import { getNextSequenceNumber } from "./getNextSquenceNumber";
 import jwt from "jsonwebtoken";
+
 export async function adminSaveToMongoDB(
   data: Record<string, any>,
-  token: string
+  token: string,
+  title: string
 ): Promise<{ message: string; _id: unknown; sequenceNumber: number }> {
   const decoded = jwt.decode(token) as { userID: string; [key: string]: any };
   if (!decoded || !decoded.userID) {
@@ -21,6 +23,7 @@ export async function adminSaveToMongoDB(
   const documentToInsert = {
     ...data,
     userID,
+    title,
     sequenceNumber,
     receivedAt: new Date(),
   };
