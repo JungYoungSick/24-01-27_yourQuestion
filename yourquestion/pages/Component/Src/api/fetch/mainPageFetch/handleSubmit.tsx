@@ -20,7 +20,9 @@ export const handleSubmit = async (
       setAdminData(searchData[0].text);
       await saveSearchResultToAdmin(searchData[0].text, title);
     } else {
-      setAdminData("조회할 데이터가 없습니다.");
+      const noDataText = "조회할 데이터가 없습니다.";
+      setAdminData(noDataText);
+      await saveSearchResultToAdmin(noDataText, title);
     }
     await saveUserInput(inputValue, title);
   } catch (error) {

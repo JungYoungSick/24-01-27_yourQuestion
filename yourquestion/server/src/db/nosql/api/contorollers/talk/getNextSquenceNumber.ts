@@ -19,19 +19,28 @@ export async function getNextSequenceNumber(
 
   if (lastDocument.length !== 0) {
     let lastSequenceNumber = lastDocument[0].sequenceNumber;
-    // 'admin'의 경우 홀수, 'user'의 경우 짝수 시퀀스 번호를 반환합니다.
+    // 시퀀스 번호 조정 로직
     if (userType === "admin") {
-      // 마지막 시퀀스 번호가 홀수인 경우, 다음 번호도 홀수가 되도록 조정
+      // 마지막 번호가 홀수인 경우 다음 홀수, 그렇지 않으면 바로 다음 홀수
       nextSequenceNumber =
         lastSequenceNumber % 2 === 0
           ? lastSequenceNumber + 1
           : lastSequenceNumber + 2;
     } else if (userType === "user") {
-      // 마지막 시퀀스 번호가 짝수인 경우, 다음 번호도 짝수가 되도록 조정
+      // 마지막 번호가 짝수인 경우 다음 짝수, 그렇지 않으면 바로 다음 짝수
       nextSequenceNumber =
         lastSequenceNumber % 2 === 1
           ? lastSequenceNumber + 1
           : lastSequenceNumber + 2;
+    }
+  } else {
+    // 첫 번째 문서 저장 시
+    if (userType === "admin") {
+      // 관리자(admin) 데이터는 홀수로 시작
+      nextSequenceNumber = 1;
+    } else if (userType === "user") {
+      // 사용자(user) 데이터는 짝수로 시작
+      nextSequenceNumber = 2;
     }
   }
   return nextSequenceNumber;
