@@ -18,9 +18,21 @@ export async function getNextSequenceNumber(
   let nextSequenceNumber = 1;
 
   if (lastDocument.length !== 0) {
-    const lastSequenceNumber = lastDocument[0].sequenceNumber;
-    nextSequenceNumber = lastSequenceNumber + 1;
+    let lastSequenceNumber = lastDocument[0].sequenceNumber;
+    // 'admin'의 경우 홀수, 'user'의 경우 짝수 시퀀스 번호를 반환합니다.
+    if (userType === "admin") {
+      // 마지막 시퀀스 번호가 홀수인 경우, 다음 번호도 홀수가 되도록 조정
+      nextSequenceNumber =
+        lastSequenceNumber % 2 === 0
+          ? lastSequenceNumber + 1
+          : lastSequenceNumber + 2;
+    } else if (userType === "user") {
+      // 마지막 시퀀스 번호가 짝수인 경우, 다음 번호도 짝수가 되도록 조정
+      nextSequenceNumber =
+        lastSequenceNumber % 2 === 1
+          ? lastSequenceNumber + 1
+          : lastSequenceNumber + 2;
+    }
   }
-
   return nextSequenceNumber;
 }
