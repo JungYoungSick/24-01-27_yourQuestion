@@ -56,7 +56,7 @@ export const Talk: React.FC = () => {
                 📌
               </button>
             </div>
-            <div className="flex mt-10 w-full h-5/6 overflow-y-auto whitespace-nowrap bg-gray-500">
+            <div className=" mt-10 w-full h-5/6 overflow-y-auto whitespace-nowrap bg-gray-500">
               <div className="flex flex-col space-y-4 p-2">
                 {combinedMessages.map((message, index) => (
                   <div

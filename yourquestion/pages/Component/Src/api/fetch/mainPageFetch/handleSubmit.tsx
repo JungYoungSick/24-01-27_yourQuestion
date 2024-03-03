@@ -7,6 +7,12 @@ export const handleSubmit = async (
   saveSearchResultToAdmin: (data: string, title: string) => Promise<void>,
   saveUserInput: (input: string, title: string) => Promise<void>
 ): Promise<void> => {
+  // 입력값이 비어있는 경우 처리
+  if (!inputValue.trim()) {
+    const noInputText = "조회할 데이터가 없습니다.";
+    setAdminData(noInputText);
+    return; // 더 이상의 처리를 중단
+  }
   try {
     const response = await fetch("/nosql/searchAdminSaveData", {
       method: "POST",
