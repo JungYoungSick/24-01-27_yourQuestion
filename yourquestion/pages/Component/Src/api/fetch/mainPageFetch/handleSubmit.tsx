@@ -2,9 +2,10 @@
 
 export const handleSubmit = async (
   inputValue: string,
+  title: string,
   setAdminData: React.Dispatch<React.SetStateAction<string>>,
-  saveSearchResultToAdmin: (data: string) => Promise<void>,
-  saveUserInput: (input: string) => Promise<void>
+  saveSearchResultToAdmin: (data: string, title: string) => Promise<void>,
+  saveUserInput: (input: string, title: string) => Promise<void>
 ): Promise<void> => {
   try {
     const response = await fetch("/nosql/searchAdminSaveData", {
@@ -17,12 +18,11 @@ export const handleSubmit = async (
     const searchData = await response.json();
     if (searchData.length > 0) {
       setAdminData(searchData[0].text);
-      await saveSearchResultToAdmin(searchData[0].text);
+      await saveSearchResultToAdmin(searchData[0].text, title);
     } else {
       setAdminData("조회할 데이터가 없습니다.");
-      await saveSearchResultToAdmin("조회할 데이터가 없습니다.");
     }
-    await saveUserInput(inputValue);
+    await saveUserInput(inputValue, title);
   } catch (error) {
     console.error("Error fetching admin data:", error);
     setAdminData("Error fetching data");

@@ -25,10 +25,11 @@ const MainPage: React.FC<MainPageProps> = ({ title }) => {
   };
 
   // 사용자 입력 처리 함수
-  const customHandleUserInput = async () => {
+  const customHandleUserInput = async (): Promise<void> => {
     await handleUserInputUtil(setIsPopupOpen, () =>
       handleSubmitUtil(
         inputValue,
+        title,
         setAdminData,
         saveSearchResultToAdmin,
         saveUserInputUtil
