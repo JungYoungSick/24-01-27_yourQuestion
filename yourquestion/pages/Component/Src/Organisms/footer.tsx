@@ -1,5 +1,6 @@
 import React from "react";
 import LoginPopup from "../Atoms/button/loginpopup";
+import { saveAdminTitle } from "../api/fetch/talkPageFetch/saveAdminTitle";
 
 interface FooterProps {
   inputValue: string;
@@ -7,15 +8,25 @@ interface FooterProps {
   handleUserInput: () => void;
   isPopupOpen: boolean;
   setIsPopupOpen: (isOpen: boolean) => void;
+  title: string;
 }
 
 const Footer: React.FC<FooterProps> = ({
-  inputValue,
   handleInputChange,
   handleUserInput,
-  isPopupOpen,
   setIsPopupOpen,
+  inputValue,
+  isPopupOpen,
+  title,
 }) => {
+  const handleSaveClick = async () => {
+    try {
+      await saveAdminTitle(title);
+      console.log("Title saved successfully");
+    } catch (error) {
+      console.error("Error saving title:", error);
+    }
+  };
   return (
     <footer className="p-4 bg-gray-200">
       <LoginPopup

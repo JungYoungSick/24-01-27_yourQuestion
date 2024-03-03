@@ -47,6 +47,7 @@ const MainPage: React.FC<MainPageProps> = ({ title }) => {
         handleUserInput={customHandleUserInput}
         isPopupOpen={isPopupOpen}
         setIsPopupOpen={setIsPopupOpen}
+        title={title}
       />
     </div>
   );
