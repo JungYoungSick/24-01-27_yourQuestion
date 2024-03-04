@@ -1,4 +1,4 @@
 export interface Talk {
-  id: string;
+  userID: string;
   title: string;
 }

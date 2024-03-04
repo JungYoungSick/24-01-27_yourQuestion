@@ -6,12 +6,15 @@ import { client } from "../../../server";
 
 export const getUserMessages = async (req: Request, res: Response) => {
   try {
+    const { userID, title } = req.query as { userID: string; title: string };
     const dbName = "prompt";
     const collectionName = "user";
     await client.connect();
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
-    const messages = await collection.find({}).toArray();
+    const messages = await collection
+      .find({ userID: userID, title: title })
+      .toArray();
     res.status(200).json(messages);
   } catch (error) {
     console.error("Failed to fetch messages from MongoDB:", error);

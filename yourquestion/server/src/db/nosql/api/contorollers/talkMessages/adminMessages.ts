@@ -1,17 +1,18 @@
-// 관리자 메시지 가져오기
-// 이 함수는 MongoDB에서 모든 관리자 메시지를 검색하여 클라이언트에 반환합니다. 만약 검색 중에 오류가 발생하면 적절한 상태 코드와 함께 오류 메시지를 반환합니다.
-
 import { Request, Response } from "express";
 import { client } from "../../../server";
 
 export const getAdminMessages = async (req: Request, res: Response) => {
   try {
+    const { userID, title } = req.query as { userID: string; title: string };
     const dbName = "prompt";
     const collectionName = "admin";
     await client.connect();
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
-    const messages = await collection.find({}).toArray();
+    // userID와 title 조건을 추가하여 검색합니다.
+    const messages = await collection
+      .find({ userID: userID, title: title })
+      .toArray();
     res.status(200).json(messages);
   } catch (error) {
     console.error("Failed to fetch messages from MongoDB:", error);

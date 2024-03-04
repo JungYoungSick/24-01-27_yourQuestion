@@ -21,8 +21,8 @@ export async function connectToMongoDB(): Promise<void> {
 }
 
 export function setupMongoRoutes(app: Express): void {
-  app.post("/mongo/user", userSaveToMongoDB);
+  // app.post("/mongo/user", userSaveToMongoDB);
   app.get("/mongo/admin/data", getFromMongoDB);
-  app.post("/mongo/admin/save", adminSaveToMongoDB);
+  // app.post("/mongo/admin/save", adminSaveToMongoDB);
   app.post("/mongo/adminSaveData", AdminSavaData);
 }

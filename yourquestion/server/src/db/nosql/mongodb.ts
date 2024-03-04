@@ -15,6 +15,9 @@ import { adminTalkPlus as adminTalk } from "./api/contorollers/newTogle/adminTal
 import { getUserMessages as userMessages } from "./api/contorollers/talkMessages/userMessages";
 import { getAdminMessages as adminMessages } from "./api/contorollers/talkMessages/adminMessages";
 import { handleSaveAdminTitle as handleSaveAdminTitle } from "./api/contorollers/talk/adminSaveTitle";
+import { getUserIDTitle } from "./api/contorollers/talkMessages/usertalk";
+import { getAdminIDTitle } from "./api/contorollers/talkMessages/admintalk";
+
 // 모든 함수를 하나의 객체로 내보내기
 export const mongoControllers = {
   saveUserData: userSave,
@@ -25,4 +28,6 @@ export const mongoControllers = {
   getUserMessages: userMessages,
   getAdminMessages: adminMessages,
   handleSaveAdminTitle: handleSaveAdminTitle,
+  getUserIDTitle: getUserIDTitle,
+  getAdminIDTitle: getAdminIDTitle,
 };
