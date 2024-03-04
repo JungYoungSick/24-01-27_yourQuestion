@@ -39,7 +39,7 @@ const MainPage: React.FC<MainPageProps> = ({ title }) => {
 
   return (
     <div className="flex flex-col h-screen bg-pink-100">
-      <Header />
+      <Header title={title} />
       <Main adminData={adminData} title={title} />
       <Footer
         inputValue={inputValue}

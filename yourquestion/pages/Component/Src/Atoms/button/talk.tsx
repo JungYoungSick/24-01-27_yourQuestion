@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { decodeToken } from "../../api/token/userJWT";
 import {
   fetchUserMessages,
   fetchAdminMessages,
 } from "../../api/fetch/talkPageFetch/massageApi";
 import { Message } from "../../interface/massage";
 
-export const Talk: React.FC = () => {
+interface TalkProps {
+  title: string; // title을 prop으로 받음
+}
+
+export const Talk: React.FC<TalkProps> = ({ title }) => {
   const [userMessages, setUserMessages] = useState<Message[]>([]);
   const [adminMessages, setAdminMessages] = useState<Message[]>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -16,24 +21,43 @@ export const Talk: React.FC = () => {
 
   useEffect(() => {
     if (isPopupOpen) {
-      fetchUserMessages().then(setUserMessages).catch(console.error);
-      fetchAdminMessages().then(setAdminMessages).catch(console.error);
+      const token = localStorage.getItem("token");
+      const decoded = token ? decodeToken(token) : null;
+      const userID = decoded ? decoded.userID : "";
 
-      const intervalUser = setInterval(
-        () => fetchUserMessages().then(setUserMessages).catch(console.error),
-        5000
-      );
-      const intervalAdmin = setInterval(
-        () => fetchAdminMessages().then(setAdminMessages).catch(console.error),
-        5000
-      );
+      console.log("UserID:", userID); // userID 로깅
+      console.log("Title:", title); // title 로깅
 
-      return () => {
-        clearInterval(intervalUser);
-        clearInterval(intervalAdmin);
-      };
+      if (userID && title) {
+        fetchUserMessages(userID, title)
+          .then(setUserMessages)
+          .catch(console.error);
+        fetchAdminMessages(userID, title)
+          .then(setAdminMessages)
+          .catch(console.error);
+
+        const intervalUser = setInterval(
+          () =>
+            fetchUserMessages(userID, title)
+              .then(setUserMessages)
+              .catch(console.error),
+          5000
+        );
+        const intervalAdmin = setInterval(
+          () =>
+            fetchAdminMessages(userID, title)
+              .then(setAdminMessages)
+              .catch(console.error),
+          5000
+        );
+
+        return () => {
+          clearInterval(intervalUser);
+          clearInterval(intervalAdmin);
+        };
+      }
     }
-  }, [isPopupOpen]);
+  }, [isPopupOpen, title]);
 
   const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 

@@ -4,7 +4,11 @@ import NewTalk from "../Atoms/button/newtalk";
 import TalkList from "../Atoms/button/talklist";
 import Talk from "../Atoms/button/talk";
 
-const Header: React.FC = () => {
+interface TalkProps {
+  title: string; // title을 prop으로 받음
+}
+
+const Header: React.FC<TalkProps> = ({ title }) => {
   return (
     <header className="flex justify-between p-4">
       <div className="flex space-x-4">
@@ -13,7 +17,7 @@ const Header: React.FC = () => {
       <div className="flex space-x-2">
         <NewTalk />
         <TalkList />
-        <Talk />
+        <Talk title={title} />
       </div>
     </header>
   );
