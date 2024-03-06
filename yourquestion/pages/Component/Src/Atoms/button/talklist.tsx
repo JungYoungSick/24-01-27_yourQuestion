@@ -3,6 +3,7 @@ import Link from "next/link";
 import { fetchTalkData } from "../../api/fetch/talkListPageFetch/fetchTalkData";
 import { decodeToken } from "../../api/token/userJWT";
 import { Talk } from "../../interface/talk";
+import deleteTitleFromDB from "../../Molecules/deleteTitleFromDB";
 
 export const TalkList: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -26,6 +27,15 @@ export const TalkList: React.FC = () => {
   const handleListOpenClick = () => setIsPopupOpen(true);
   const handleListCloseClick = () => setIsPopupOpen(false);
 
+  const handleDelete = async (title: string) => {
+    try {
+      await deleteTitleFromDB(title);
+      setTalkData(talkData.filter((data) => data.title !== title));
+    } catch (error) {
+      console.error("Error deleting title:", error);
+      // 삭제 실패 시 사용자에게 알림 등을 처리할 수 있음
+    }
+  };
   return (
     <>
       <button
@@ -50,25 +60,25 @@ export const TalkList: React.FC = () => {
             </div>
             <ul className="mt-4">
               {talkData.map((data, index) => (
-                <li key={index} className="py-2 bg-gray-100 mb-2 rounded-lg">
+                <li
+                  key={index}
+                  className="py-2 bg-gray-100 mb-2 rounded-lg flex justify-between items-center"
+                >
                   <Link
                     href={`/talk/${data.title}`}
                     className="ml-2 text-blue-500 hover:text-blue-700"
                   >
                     {data.title}
                   </Link>
+                  <button
+                    onClick={() => handleDelete(data.title)}
+                    className="mr-2 text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
                 </li>
               ))}
             </ul>
-
-            {/* <ul>
-              {Array.isArray(talkData) &&
-                talkData.map((data) => (
-                  <li key={data.id}>
-                    <Link href={`/talk/${data.id}`}>{data.title}</Link>
-                  </li>
-                ))}
-            </ul> */}
           </div>
         </div>
       )}

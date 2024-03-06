@@ -9,6 +9,7 @@ import { connectToMysql } from "./db/mysql/server";
 
 import { connectMongoDB } from "./db/nosql/server";
 import { mongoControllers } from "./db/nosql/mongodb";
+import deleteTitleFromDB from "../../pages/Component/Src/Molecules/deleteTitleFromDB";
 
 const isDev = process.env.NODE_ENV !== "production";
 const app = next({ dev: isDev });
@@ -38,7 +39,7 @@ app.prepare().then(() => {
   server.post("/mysql/mariadb", mariaControllers.registerUser);
   server.get("/title/talkdata", mariaControllers.getTitleTalkData);
   server.get("/talkData/:userID", mariaControllers.getTitlesByUserID);
-
+  server.delete("/talkList/delite/:title", mariaControllers.handleDeleteTitle);
   server.all("*", (req, res) => handle(req, res));
 
   const port = process.env.PORT || 3000;
