@@ -48,10 +48,15 @@ export const TalkList: React.FC = () => {
                 📌
               </button>
             </div>
-            <ul>
+            <ul className="mt-4">
               {talkData.map((data, index) => (
-                <li key={index}>
-                  <Link href={`/talk/${data.title}`}>{data.title}</Link>
+                <li key={index} className="py-2 bg-gray-100 mb-2 rounded-lg">
+                  <Link
+                    href={`/talk/${data.title}`}
+                    className="ml-2 text-blue-500 hover:text-blue-700"
+                  >
+                    {data.title}
+                  </Link>
                 </li>
               ))}
             </ul>
