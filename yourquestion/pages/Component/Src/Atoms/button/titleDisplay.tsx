@@ -1,15 +1,15 @@
 // TitleDisplay.tsx
-import React, { useEffect } from "react";
-import { saveAdminTitle } from "../../api/fetch/talkPageFetch/saveAdminTitle";
+import React from "react";
 
 interface TitleDisplayProps {
   title: string;
+  userID: string;
 }
 
 const TitleDisplay: React.FC<TitleDisplayProps> = ({ title }) => {
   return (
     <div className="title-display">
-      <h2>{title || "로그인을 해주세요."}</h2>
+      <h2>{title}</h2>
     </div>
   );
 };
