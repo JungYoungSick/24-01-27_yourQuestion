@@ -6,7 +6,6 @@ export async function getUserDataFromMongoDB(userID: string): Promise<any[]> {
     const db: Db = client.db("prompt");
     const collection: Collection = db.collection("adminSaveData");
 
-    // 사용자 ID를 기준으로 데이터 조회
     const userData = await collection.find({ userID }).toArray();
     return userData;
   } catch (error) {

@@ -28,16 +28,12 @@ export const searchAdminData = async (
     const keyword = req.body.keyword;
     console.log("Search keyword:", keyword);
 
-    // MongoDB에서 사용자 데이터 가져오기
     const userData = await getUserDataFromMongoDB(userID);
-    console.log("Fetched user data from MongoDB:", userData);
 
     const results = await searchAdminCollection(userID, keyword);
-    console.log("Search results:", results);
 
-    // 토큰의 userID와 일치하는 데이터만 필터링
     const filteredData = filterUserDataByTokenUserID(userData, userID);
-    console.log("Filtered user data:", filteredData);
+
     if (filteredData.length > 0) {
       res.status(200).json(results);
     } else {
