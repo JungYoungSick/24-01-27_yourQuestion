@@ -9,17 +9,19 @@ export const TalkList: React.FC = () => {
   const [talkData, setTalkData] = useState<Talk[]>([]);
 
   useEffect(() => {
-    const initializeTalkData = async () => {
-      const token = localStorage.getItem("token");
-      const decoded = token ? decodeToken(token) : null;
-      if (decoded && decoded.userID) {
-        const title = await fetchTalkData(decoded.userID);
-        setTalkData(title);
-      }
-    };
+    if (isPopupOpen) {
+      const initializeTalkData = async () => {
+        const token = localStorage.getItem("token");
+        const decoded = token ? decodeToken(token) : null;
+        if (decoded && decoded.userID) {
+          const title = await fetchTalkData(decoded.userID);
+          setTalkData(title);
+        }
+      };
 
-    initializeTalkData();
-  }, []);
+      initializeTalkData();
+    }
+  }, [isPopupOpen]);
 
   const handleListOpenClick = () => setIsPopupOpen(true);
   const handleListCloseClick = () => setIsPopupOpen(false);
