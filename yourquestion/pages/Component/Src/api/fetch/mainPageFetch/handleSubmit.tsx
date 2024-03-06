@@ -14,10 +14,12 @@ export const handleSubmit = async (
     return; // 더 이상의 처리를 중단
   }
   try {
+    const token = localStorage.getItem("token") || "";
     const response = await fetch("/nosql/searchAdminSaveData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${encodeURIComponent(token)}`,
       },
       body: JSON.stringify({ keyword: inputValue }),
     });

@@ -6,6 +6,7 @@ export const handleUserInput = async (
 ): Promise<void> => {
   const token = localStorage.getItem("token");
   if (!token) {
+    //! 기능고장
     setIsPopupOpen(true);
     return;
   }
