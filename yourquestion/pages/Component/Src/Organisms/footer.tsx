@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({
     }
   };
   return (
-    <footer className="p-4 bg-gray-200">
+    <footer className="p-4 bg-slate-400">
       <LoginPopup
         showButton={false}
         isOpen={isPopupOpen}
