@@ -1,5 +1,5 @@
 import React from "react";
-import TitleDisplay from "../Atoms/button/titleDisplay";
+import TitleDisplay from "../Molecules/titleDisplay";
 import Image from "next/image";
 import Dog from "../assets/image/Dog.webp";
 interface MainProps {

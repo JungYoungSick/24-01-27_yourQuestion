@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import AdminTalkPlus from "./newTalkTogle/adminTalkPlus";
 import NewHeader from "./newTalkTogle/newHeader";
-import useOutsideClick from "../../api/hook/useOutsideClick";
+import useOutsideClick from "../api/hook/useOutsideClick";
 
 const NewTalk = () => {
   const [isAdminTalkPlusOpen, setIsAdminTalkPlusOpen] = useState(false);

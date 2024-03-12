@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { decodeToken } from "../../api/token/userJWT";
+import { decodeToken } from "../api/token/userJWT";
 import {
   fetchUserMessages,
   fetchAdminMessages,
-} from "../../api/fetch/talkPageFetch/massageApi";
-import { Message } from "../../interface/massage";
+} from "../api/fetch/talkPageFetch/massageApi";
+import { Message } from "../interface/massage";
 
 interface TalkProps {
   title: string; // title을 prop으로 받음

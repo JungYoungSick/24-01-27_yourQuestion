@@ -1,8 +1,8 @@
 import React from "react";
-import LoginPopup from "../Atoms/button/loginpopup";
-import NewTalk from "../Atoms/button/newtalk";
-import TalkList from "../Atoms/button/talklist";
-import Talk from "../Atoms/button/talk";
+import LoginPopup from "../Molecules/loginpopup";
+import NewTalk from "../Molecules/newtalk";
+import TalkList from "../Molecules/talklist";
+import Talk from "../Molecules/talk";
 
 interface TalkProps {
   title: string; // title을 prop으로 받음

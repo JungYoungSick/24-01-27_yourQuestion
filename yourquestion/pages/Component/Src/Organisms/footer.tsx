@@ -1,5 +1,5 @@
 import React from "react";
-import LoginPopup from "../Atoms/button/loginpopup";
+import LoginPopup from "../Molecules/loginpopup";
 import { saveAdminTitle } from "../api/fetch/talkPageFetch/saveAdminTitle";
 
 interface FooterProps {

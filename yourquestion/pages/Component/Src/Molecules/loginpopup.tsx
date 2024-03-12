@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import useUserAuthentication from "../../api/token/useUserAuthentication";
-import { LoginPopupProps } from "../../interface/login";
-import useLoginStatus from "../../api/hook/useLiginStatus";
+import useUserAuthentication from "../api/token/useUserAuthentication";
+import { LoginPopupProps } from "../interface/login";
+import useLoginStatus from "../api/hook/useLiginStatus";
 
 const LoginPopup: React.FC<LoginPopupProps> = ({
   showButton = true,

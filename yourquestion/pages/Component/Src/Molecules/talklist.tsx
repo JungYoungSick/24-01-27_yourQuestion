@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { fetchTalkData } from "../../api/fetch/talkListPageFetch/fetchTalkData";
-import { decodeToken } from "../../api/token/userJWT";
-import { Talk } from "../../interface/talk";
-import deleteTitleFromDB from "../../Molecules/deleteTitleFromDB";
+import { fetchTalkData } from "../api/fetch/talkListPageFetch/fetchTalkData";
+import { decodeToken } from "../api/token/userJWT";
+import { Talk } from "../interface/talk";
+import deleteTitleFromDB from "./deleteTitleFromDB";
 
 export const TalkList: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
